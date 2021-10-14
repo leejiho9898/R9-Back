@@ -1,0 +1,27 @@
+{
+	"env": {
+		"es2021": true,
+		"node": true
+	},
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 12,
+		"project": "./tsconfig.json",
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"airbnb-base",
+		"airbnb-typescript/base",
+		"plugin:prettier/recommended"
+	],
+	"ignorePatterns": [".eslintrc"],
+	"rules": {
+		"@typescript-eslint/return-await": "off",
+		"class-methods-use-this": "off",
+		"import/no-cycle": "off",
+		"import/prefer-default-export": "off",
+		"max-classes-per-file": "off"
+	}
+}
