@@ -1,6 +1,9 @@
-import { Module, ValidationPipe } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import joi from "joi";
+import { User } from "./users/entities/user.entity";
+import { UsersModule } from "./users/users.module";
 
 @Module({
 	imports: [
@@ -12,20 +15,21 @@ import joi from "joi";
 					.valid("development", "production", "test")
 					.default("development"),
 				PORT: joi.number().default(4000),
+				DATABASE_URL: joi.string().required(),
 			}),
 		}),
-	],
-	providers: [
-		{
-			provide: "APP_PIPE",
-			useFactory: () => {
-				return new ValidationPipe({
-					transform: true,
-					whitelist: true,
-					forbidNonWhitelisted: true,
-				});
-			},
-		},
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			useFactory: (configService: ConfigService) => ({
+				type: "postgres",
+				url: configService.get<string>("DATABASE_URL"),
+				logging: configService.get<string>("NODE_ENV") !== "production",
+				entities: [User],
+				synchronize: configService.get<string>("NODE_ENV") !== "production",
+			}),
+			inject: [ConfigService],
+		}),
+		UsersModule,
 	],
 })
 export class AppModule {}
