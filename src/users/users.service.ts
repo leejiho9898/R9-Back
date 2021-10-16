@@ -32,10 +32,18 @@ export class UsersService {
 		return await this.usersRepository.find();
 	}
 
-	async findOne(id: string) {
+	async findOneById(id: string) {
 		const found = await this.usersRepository.findOne({ id });
 		if (!found) {
 			throw new NotFoundException(`User with id '${id}' does not exist`);
+		}
+		return found;
+	}
+
+	async findOneByEmail(email: string) {
+		const found = await this.usersRepository.findOne({ email });
+		if (!found) {
+			throw new NotFoundException(`User with email '${email}' does not exist`);
 		}
 		return found;
 	}
@@ -45,7 +53,6 @@ export class UsersService {
 		if (!found) {
 			throw new NotFoundException(`User with id '${id}' does not exist`);
 		}
-
 		await this.usersRepository.save(
 			this.usersRepository.create({ id, ...updateUserDto }),
 		);

@@ -1,9 +1,30 @@
-import { Module } from "@nestjs/common";
+import {
+	ClassSerializerInterceptor,
+	Module,
+	Provider,
+	ValidationPipe,
+} from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import joi from "joi";
 import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
+import { AuthModule } from "./auth/auth.module";
+
+const validationPipe: Provider = {
+	provide: "APP_PIPE",
+	useFactory: () =>
+		new ValidationPipe({
+			transform: true,
+			whitelist: true,
+			forbidNonWhitelisted: true,
+		}),
+};
+
+const classSerializerInterceptor: Provider = {
+	provide: "APP_INTERCEPTOR",
+	useClass: ClassSerializerInterceptor,
+};
 
 @Module({
 	imports: [
@@ -14,8 +35,10 @@ import { UsersModule } from "./users/users.module";
 					.string()
 					.valid("development", "production", "test")
 					.default("development"),
+				DOMAIN: joi.string().default("localhost"),
 				PORT: joi.number().default(4000),
 				DATABASE_URL: joi.string().required(),
+				SECRET_KEY: joi.string().required(),
 			}),
 		}),
 		TypeOrmModule.forRootAsync({
@@ -30,6 +53,8 @@ import { UsersModule } from "./users/users.module";
 			inject: [ConfigService],
 		}),
 		UsersModule,
+		AuthModule,
 	],
+	providers: [validationPipe, classSerializerInterceptor],
 })
 export class AppModule {}

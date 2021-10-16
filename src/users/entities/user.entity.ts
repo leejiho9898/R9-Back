@@ -6,14 +6,15 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { IsEmail, IsEnum, IsString, IsUUID, Matches } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 import bcrypt from "bcrypt";
 import { Base } from "src/common/entities/base.entitiy";
-import { ApiProperty } from "@nestjs/swagger";
+import { Exclude } from "class-transformer";
 
 export enum Role {
-	Admin = "ADMIN",
-	User = "USER",
-	Business = "BUSINESS",
+	ADMIN = "ADMIN",
+	USER = "USER",
+	BUSINESS = "BUSINESS",
 }
 
 const passwordRegExp =
@@ -36,9 +37,10 @@ export class User extends Base {
 	@IsEmail()
 	email: string;
 
-	@Column({ select: false })
+	@Column()
 	@ApiProperty()
 	@Matches(passwordRegExp)
+	@Exclude()
 	password: string;
 
 	@Column({ type: "enum", enum: Role })

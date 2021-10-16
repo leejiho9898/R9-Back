@@ -1,7 +1,7 @@
-import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -10,13 +10,7 @@ async function bootstrap() {
 	const configService = app.get(ConfigService);
 	const port = configService.get<number>("PORT");
 
-	app.useGlobalPipes(
-		new ValidationPipe({
-			transform: true,
-			whitelist: true,
-			forbidNonWhitelisted: true,
-		}),
-	);
+	app.use(cookieParser());
 
 	const config = new DocumentBuilder()
 		.setTitle("R9")
