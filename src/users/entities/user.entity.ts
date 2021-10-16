@@ -8,6 +8,7 @@ import {
 import { IsEmail, IsEnum, IsString, IsUUID, Matches } from "class-validator";
 import bcrypt from "bcrypt";
 import { Base } from "src/common/entities/base.entitiy";
+import { ApiProperty } from "@nestjs/swagger";
 
 export enum Role {
 	Admin = "ADMIN",
@@ -21,22 +22,27 @@ const passwordRegExp =
 @Entity()
 export class User extends Base {
 	@PrimaryGeneratedColumn("uuid")
+	@ApiProperty({ type: String, description: "사용자 UUID" })
 	@IsUUID()
 	id: string;
 
 	@Column()
+	@ApiProperty()
 	@IsString()
 	name: string;
 
 	@Column({ unique: true })
+	@ApiProperty()
 	@IsEmail()
 	email: string;
 
 	@Column({ select: false })
+	@ApiProperty()
 	@Matches(passwordRegExp)
 	password: string;
 
 	@Column({ type: "enum", enum: Role })
+	@ApiProperty({ enum: Role })
 	@IsEnum(Role)
 	role: Role;
 
