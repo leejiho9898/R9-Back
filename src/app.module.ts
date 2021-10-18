@@ -26,35 +26,34 @@ const classSerializerInterceptor: Provider = {
 	useClass: ClassSerializerInterceptor,
 };
 
+const configModule = ConfigModule.forRoot({
+	isGlobal: true,
+	validationSchema: joi.object({
+		NODE_ENV: joi
+			.string()
+			.valid("development", "production", "test")
+			.default("development"),
+		DOMAIN: joi.string().default("localhost"),
+		PORT: joi.number().default(4000),
+		DATABASE_URL: joi.string().required(),
+		SECRET_KEY: joi.string().required(),
+	}),
+});
+
+const typeOrmModule = TypeOrmModule.forRootAsync({
+	imports: [ConfigModule],
+	useFactory: (configService: ConfigService) => ({
+		type: "postgres",
+		url: configService.get<string>("DATABASE_URL"),
+		logging: configService.get<string>("NODE_ENV") !== "production",
+		entities: [User],
+		synchronize: configService.get<string>("NODE_ENV") !== "production",
+	}),
+	inject: [ConfigService],
+});
+
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			isGlobal: true,
-			validationSchema: joi.object({
-				NODE_ENV: joi
-					.string()
-					.valid("development", "production", "test")
-					.default("development"),
-				DOMAIN: joi.string().default("localhost"),
-				PORT: joi.number().default(4000),
-				DATABASE_URL: joi.string().required(),
-				SECRET_KEY: joi.string().required(),
-			}),
-		}),
-		TypeOrmModule.forRootAsync({
-			imports: [ConfigModule],
-			useFactory: (configService: ConfigService) => ({
-				type: "postgres",
-				url: configService.get<string>("DATABASE_URL"),
-				logging: configService.get<string>("NODE_ENV") !== "production",
-				entities: [User],
-				synchronize: configService.get<string>("NODE_ENV") !== "production",
-			}),
-			inject: [ConfigService],
-		}),
-		UsersModule,
-		AuthModule,
-	],
+	imports: [configModule, typeOrmModule, UsersModule, AuthModule],
 	providers: [validationPipe, classSerializerInterceptor],
 })
 export class AppModule {}

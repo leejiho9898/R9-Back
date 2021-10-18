@@ -6,19 +6,17 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { IsEmail, IsEnum, IsString, IsUUID, Matches } from "class-validator";
+import { Exclude } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
 import bcrypt from "bcrypt";
 import { Base } from "src/common/entities/base.entitiy";
-import { Exclude } from "class-transformer";
+import { REGEXP_PASSWORD } from "src/common/constants/regexp";
 
 export enum Role {
 	ADMIN = "ADMIN",
 	USER = "USER",
 	BUSINESS = "BUSINESS",
 }
-
-const passwordRegExp =
-	/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,128}$/;
 
 @Entity()
 export class User extends Base {
@@ -39,7 +37,7 @@ export class User extends Base {
 
 	@Column()
 	@ApiProperty()
-	@Matches(passwordRegExp)
+	@Matches(REGEXP_PASSWORD)
 	@Exclude()
 	password: string;
 
@@ -47,6 +45,11 @@ export class User extends Base {
 	@ApiProperty({ enum: Role })
 	@IsEnum(Role)
 	role: Role;
+
+	@Column()
+	@ApiProperty()
+	@IsString()
+	address: string;
 
 	@BeforeInsert()
 	@BeforeUpdate()

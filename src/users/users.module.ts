@@ -4,8 +4,10 @@ import { UsersService } from "./users.service";
 import { UsersController } from "./users.controller";
 import { User } from "./entities/user.entity";
 
+const typeOrmModule = TypeOrmModule.forFeature([User]);
+
 @Module({
-	imports: [TypeOrmModule.forFeature([User])],
+	imports: [typeOrmModule],
 	controllers: [UsersController],
 	providers: [UsersService],
 	exports: [UsersService],

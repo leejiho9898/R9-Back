@@ -1,4 +1,4 @@
-import { IsDate, IsOptional } from "class-validator";
+import { IsDate } from "class-validator";
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
 export class Base {
@@ -11,7 +11,6 @@ export class Base {
 	updatedAt: Date;
 
 	@DeleteDateColumn({ name: "deleted_at", type: "timestamp" })
-	@IsOptional()
 	@IsDate()
-	deletedAt: Date;
+	deletedAt?: Date;
 }

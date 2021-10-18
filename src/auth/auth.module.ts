@@ -8,18 +8,16 @@ import { JwtStrategy } from "src/common/strategies/jwt.strategy";
 import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 
+const jwtModule = JwtModule.registerAsync({
+	imports: [ConfigModule],
+	useFactory: (configService: ConfigService) => ({
+		secret: configService.get<string>("SECRET_KEY"),
+	}),
+	inject: [ConfigService],
+});
+
 @Module({
-	imports: [
-		UsersModule,
-		PassportModule,
-		JwtModule.registerAsync({
-			imports: [ConfigModule],
-			useFactory: (configService: ConfigService) => ({
-				secret: configService.get<string>("SECRET_KEY"),
-			}),
-			inject: [ConfigService],
-		}),
-	],
+	imports: [UsersModule, PassportModule, jwtModule],
 	providers: [AuthService, LocalStrategy, JwtStrategy],
 	controllers: [AuthController],
 })
