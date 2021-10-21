@@ -10,6 +10,7 @@ import joi from "joi";
 import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
+import { JobsModule } from "./jobs/jobs.module";
 
 const validationPipe: Provider = {
 	provide: "APP_PIPE",
@@ -53,7 +54,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
 });
 
 @Module({
-	imports: [configModule, typeOrmModule, UsersModule, AuthModule],
+	imports: [configModule, typeOrmModule, UsersModule, AuthModule, JobsModule],
 	providers: [validationPipe, classSerializerInterceptor],
 })
 export class AppModule {}
