@@ -1,3 +1,4 @@
+import { IsUUID } from "class-validator";
 import {
 	BaseEntity,
 	Column,
@@ -9,7 +10,8 @@ import {
 
 @Entity()
 export class Job extends BaseEntity {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn("uuid")
+	@IsUUID()
 	id: string;
 
 	// 작성자 ID
