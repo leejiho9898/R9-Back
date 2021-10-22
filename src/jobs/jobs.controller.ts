@@ -1,13 +1,21 @@
-/* eslint-disable @typescript-eslint/lines-between-class-members */
-/* eslint-disable prettier/prettier */
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { CreateJobDto } from "./dto/job.dto";
+import { Job } from "./job.entity";
 import { JobsService } from "./jobs.service";
 
 @Controller("jobs")
+@ApiTags("jobs")
 export class JobsController {
 	constructor(private jobsService: JobsService) {}
-	@Get()
+
+	@Post("createJob")
+	createJob(@Body() createJobDto: CreateJobDto): Promise<Job> {
+		return this.jobsService.createJob(createJobDto);
+	}
+
+	@Get("readAllJobs")
 	getAllJobs() {
-		return 1;
+		return this.jobsService.readAllJobs();
 	}
 }
