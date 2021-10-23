@@ -1,10 +1,6 @@
 import { IsUUID } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
-import {
-	Column,
-	Entity,
-	PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Job extends Base {
