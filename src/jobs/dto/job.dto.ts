@@ -1,32 +1,12 @@
-import { IsNotEmpty } from "class-validator";
+import { PickType } from "@nestjs/swagger";
+import { Job } from "../job.entity";
 
-export class CreateJobDto {
-	// 작성자 ID
-	@IsNotEmpty()
-	writer: string;
-
-	// 공고 제목
-	@IsNotEmpty()
-	title: string;
-
-	// 근무 내용
-	@IsNotEmpty()
-	detail: string;
-
-	// 마감일
-	@IsNotEmpty()
-	deadline: Date;
-
-	@IsNotEmpty()
-	adress: string;
-
-	// 인원
-	@IsNotEmpty()
-	personnel: string;
-
-	// 연령 조건
-	@IsNotEmpty()
-	age: number;
-
-	// 주소
-}
+export class CreateJobDto extends PickType(Job, [
+	"writer",
+	"title",
+	"detail",
+	"deadline",
+	"adress",
+	"personnel",
+	"age",
+] as const) {}

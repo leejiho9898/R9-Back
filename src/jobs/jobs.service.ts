@@ -12,9 +12,6 @@ export class JobsService {
 	) {}
 
 	async createJob(@Body() createJobDto: CreateJobDto): Promise<Job> {
-		// const { writer, title, detail, deadline, adress, personnel, age } =
-		// 	createJobDto;
-
 		const job = this.jobsRepository.create(createJobDto);
 		await this.jobsRepository.save(job);
 		return job;
