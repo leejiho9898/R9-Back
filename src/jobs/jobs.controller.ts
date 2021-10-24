@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Patch,
+	Post,
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateJobDto } from "./dto/job.dto";
 import { Job } from "./job.entity";
@@ -27,5 +35,13 @@ export class JobsController {
 	@Delete("deleteJob/:id")
 	deleteJob(@Param("id") id: string): Promise<void> {
 		return this.jobsService.deleteJob(id);
+	}
+
+	@Patch("updateJob/:id")
+	updateJob(
+		@Body() createJobDto: CreateJobDto,
+		@Param("id") id: string,
+	): Promise<Job> {
+		return this.jobsService.updateJob(createJobDto, id);
 	}
 }

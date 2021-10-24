@@ -43,4 +43,20 @@ export class JobsService {
 			);
 		}
 	}
+
+	//공고 업데이트
+	async updateJob(
+		@Body() createJobDto: CreateJobDto,
+		id: string,
+	): Promise<Job> {
+		const { title, detail, deadline, adress, personnel, age } = createJobDto;
+		const job = await this.readJobDetail(id);
+		job.title = title;
+		job.detail = detail;
+		job.deadline = deadline;
+		job.adress = adress;
+		job.personnel = personnel;
+		job.age = age;
+		return this.jobsRepository.save(job);
+	}
 }
