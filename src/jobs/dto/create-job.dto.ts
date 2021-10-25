@@ -1,15 +1,3 @@
-// import { PickType } from "@nestjs/swagger";
-// import { Job } from "../job.entity";
-
-// export class CreateJobDto extends PickType(Job, [
-// 	"title",
-// 	"detail",
-// 	"adress",
-// 	"personnel",
-// 	"age",
-// 	`deadline`,
-// ] as const) {}
-
 import { IsNotEmpty } from "class-validator";
 import { User } from "src/users/entities/user.entity";
 
@@ -43,3 +31,15 @@ export class CreateJobDto {
 
 	// 주소
 }
+
+// import { PickType } from "@nestjs/swagger";
+// import { Job } from "../job.entity";
+
+// export class CreateJobDto extends PickType(Job, [
+// 	"title",
+// 	"detail",
+// 	"adress",
+// 	"personnel",
+// 	"age",
+// 	`deadline`,
+// ] as const) {}
