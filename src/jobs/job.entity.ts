@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsString, IsUUID } from "class-validator";
+import { IsDateString, IsNumber, IsString, IsUUID } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -26,6 +26,7 @@ export class Job extends Base {
 	// 마감일
 	@Column()
 	@ApiProperty()
+	@IsDateString()
 	deadline: Date;
 
 	// 근무 내용
