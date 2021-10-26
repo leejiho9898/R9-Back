@@ -38,7 +38,7 @@ export class User extends Base {
 	@Column()
 	@ApiProperty()
 	@Matches(REGEXP_PASSWORD)
-	@Exclude()
+	@Exclude({ toPlainOnly: true })
 	password: string;
 
 	@Column({ type: "enum", enum: Role })
@@ -46,7 +46,7 @@ export class User extends Base {
 	@IsEnum(Role)
 	role: Role;
 
-	@Column()
+	@Column({ nullable: true })
 	@ApiProperty()
 	@IsString()
 	address: string;
