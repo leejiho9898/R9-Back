@@ -18,7 +18,7 @@ import { UpdateJobDto } from "./dto/update-job.dto";
 import { JobsService } from "./jobs.service";
 
 @Controller("jobs")
-@ApiTags("jobs")
+@ApiTags("Jobs")
 export class JobsController {
 	constructor(private jobsService: JobsService) {}
 
