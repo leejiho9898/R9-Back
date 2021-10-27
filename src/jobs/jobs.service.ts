@@ -15,7 +15,7 @@ export class JobsService {
 	// 공고 생성
 	async createJob(
 		@Body() createJobDto: CreateJobDto,
-		user: User,
+		writer: User,
 	): Promise<Job> {
 		const { title, detail, deadline, adress, personnel, age } = createJobDto;
 		const job = this.jobsRepository.create({
@@ -24,7 +24,7 @@ export class JobsService {
 			adress,
 			personnel,
 			age,
-			writer: user,
+			writer,
 			deadline,
 		});
 		await this.jobsRepository.save(job);
@@ -34,6 +34,14 @@ export class JobsService {
 	// 모든 공고 불러오기
 	async readAllJobs(): Promise<Job[]> {
 		return this.jobsRepository.find();
+	}
+
+	//내가올린 공고 불러오기
+	async readMyJobs(writer: User): Promise<Job[]> {
+		const query = this.jobsRepository.createQueryBuilder("job");
+		query.where("job.writerId=:writerId", { writerId: writer.id });
+		const jobs = await query.getMany();
+		return jobs;
 	}
 
 	// 특정 id값의 공고 불러오기

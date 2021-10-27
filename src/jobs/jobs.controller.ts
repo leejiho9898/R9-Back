@@ -6,9 +6,12 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseGuards,
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { GetUser } from "src/auth/decorators/get-user.decorator";
+import { CurrentUser } from "src/common/decorators/current-user.decorator";
+
 import { User } from "src/users/entities/user.entity";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { Job } from "./job.entity";
@@ -20,18 +23,24 @@ export class JobsController {
 	constructor(private jobsService: JobsService) {}
 
 	@Post("createJob")
+	@UseGuards(AuthGuard())
 	createJob(
 		@Body() createJobDto: CreateJobDto,
-		@GetUser() user: User,
+		@CurrentUser() writer: User,
 	): Promise<Job> {
-		return this.jobsService.createJob(createJobDto, user);
+		return this.jobsService.createJob(createJobDto, writer);
 	}
 
 	@Get("readAllJobs")
-	getAllJobs() {
+	readAllJobs() {
 		return this.jobsService.readAllJobs();
 	}
 
+	@Get("readMyJobs")
+	@UseGuards(AuthGuard())
+	readMyJobs(@CurrentUser() writer: User) {
+		return this.jobsService.readMyJobs(writer);
+	}
 	@Get("readJobDetail/:id")
 	readJobDetail(@Param("id") id: string): Promise<Job> {
 		return this.jobsService.readJobDetail(id);

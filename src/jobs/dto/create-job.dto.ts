@@ -7,5 +7,6 @@ export class CreateJobDto extends PickType(Job, [
 	"adress",
 	"personnel",
 	"age",
-	`deadline`,
+	"deadline",
+
 ] as const) {}
