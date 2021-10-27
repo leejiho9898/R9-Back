@@ -4,8 +4,10 @@ import { HashtagController } from "./hashtag.controller";
 import { HashtagRepository } from "./hashtag.repository";
 import { HashtagService } from "./hashtag.service";
 
+const typeOrmModule = TypeOrmModule.forFeature([HashtagRepository]);
+
 @Module({
-	imports: [TypeOrmModule.forFeature([HashtagRepository])],
+	imports: [typeOrmModule],
 	controllers: [HashtagController],
 	providers: [HashtagService],
 	exports: [HashtagService],

@@ -13,7 +13,7 @@ export class AuthService {
 	) {}
 
 	async verifyUser(email: string, password: string) {
-		const user = await this.usersService.findOneByEmail(email);
+		const user = await this.usersService.findOneUserByEmail(email);
 		if (!(await user.verifyPassword(password))) {
 			throw new UnauthorizedException("Invalid password");
 		}

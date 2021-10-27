@@ -11,7 +11,7 @@ import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { JobsModule } from "./jobs/jobs.module";
-import { Job } from "./jobs/job.entity";
+import { Job } from "./jobs/entities/job.entity";
 import { HashtagModule } from "./hashtag/hashtag.module";
 import { Hashtag } from "./hashtag/entities/hashtag.entity";
 

@@ -16,7 +16,7 @@ export class UsersService {
 		private readonly usersRepository: Repository<User>,
 	) {}
 
-	async create(createUserDto: CreateUserDto) {
+	async createUser(createUserDto: CreateUserDto) {
 		const found = await this.usersRepository.findOne({
 			email: createUserDto.email,
 		});
@@ -28,11 +28,11 @@ export class UsersService {
 		await this.usersRepository.save(this.usersRepository.create(createUserDto));
 	}
 
-	async findAll() {
+	async findUsers() {
 		return await this.usersRepository.find();
 	}
 
-	async findOneById(id: string) {
+	async findOneUserById(id: string) {
 		const found = await this.usersRepository.findOne({ id });
 		if (!found) {
 			throw new NotFoundException(`User with id '${id}' does not exist`);
@@ -40,7 +40,7 @@ export class UsersService {
 		return found;
 	}
 
-	async findOneByEmail(email: string) {
+	async findOneUserByEmail(email: string) {
 		const found = await this.usersRepository.findOne({ email });
 		if (!found) {
 			throw new NotFoundException(`User with email '${email}' does not exist`);
@@ -48,7 +48,7 @@ export class UsersService {
 		return found;
 	}
 
-	async update(id: string, updateUserDto: UpdateUserDto) {
+	async updateUser(id: string, updateUserDto: UpdateUserDto) {
 		const found = await this.usersRepository.findOne({ id });
 		if (!found) {
 			throw new NotFoundException(`User with id '${id}' does not exist`);
@@ -58,7 +58,7 @@ export class UsersService {
 		);
 	}
 
-	async delete(id: string) {
+	async deleteUser(id: string) {
 		const found = await this.usersRepository.findOne({ id });
 		if (!found) {
 			throw new NotFoundException(`User with id '${id}' does not exist`);

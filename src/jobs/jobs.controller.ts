@@ -12,11 +12,9 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/common/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
-
 import { User } from "src/users/entities/user.entity";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
-import { Job } from "./job.entity";
 import { JobsService } from "./jobs.service";
 
 @Controller("jobs")
@@ -24,44 +22,35 @@ import { JobsService } from "./jobs.service";
 export class JobsController {
 	constructor(private jobsService: JobsService) {}
 
-	@Post("createJob")
+	@Post()
 	@Auth(["ANY"])
-	createJob(
-		@Body() createJobDto: CreateJobDto,
-		@CurrentUser() writer: User,
-	): Promise<Job> {
+	createJob(@Body() createJobDto: CreateJobDto, @CurrentUser() writer: User) {
 		return this.jobsService.createJob(createJobDto, writer);
 	}
 
-	@Get("readAllJobs")
+	@Get()
 	readAllJobs() {
-		console.log("asdasd");
 		return this.jobsService.readAllJobs();
 	}
 
-	@Get("readMyJobs")
+	@Get("me")
 	@UseGuards(AuthGuard())
 	readMyJobs(@CurrentUser() writer: User) {
 		return this.jobsService.readMyJobs(writer);
 	}
-	@Get("readJobDetail/:id")
-	readJobDetail(@Param("id") id: string): Promise<Job> {
+
+	@Get(":id")
+	readJobDetail(@Param("id") id: string) {
 		return this.jobsService.readJobDetail(id);
 	}
 
-	@Delete("deleteJob/:id")
-	deleteJob(
-		@Param("id") id: string,
-		@CurrentUser() writer: User,
-	): Promise<void> {
+	@Delete(":id")
+	deleteJob(@Param("id") id: string, @CurrentUser() writer: User) {
 		return this.jobsService.deleteJob(id, writer);
 	}
 
-	@Patch("updateJob/:id")
-	updateJob(
-		@Body() updateJobDto: UpdateJobDto,
-		@Param("id") id: string,
-	): Promise<Job> {
+	@Patch(":id")
+	updateJob(@Body() updateJobDto: UpdateJobDto, @Param("id") id: string) {
 		return this.jobsService.updateJob(updateJobDto, id);
 	}
 }

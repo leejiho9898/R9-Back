@@ -4,7 +4,7 @@ import { User } from "src/users/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
-import { Job } from "./job.entity";
+import { Job } from "./entities/job.entity";
 
 @Injectable()
 export class JobsService {
@@ -37,7 +37,7 @@ export class JobsService {
 		return this.jobsRepository.find();
 	}
 
-	//내가올린 공고 불러오기
+	// 내가올린 공고 불러오기
 	async readMyJobs(writer: User): Promise<Job[]> {
 		const query = this.jobsRepository.createQueryBuilder("job");
 		query.where("job.writerId=:writerId", { writerId: writer.id });

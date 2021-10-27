@@ -6,6 +6,7 @@ import {
 	ApiBody,
 	ApiForbiddenResponse,
 	ApiOkResponse,
+	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
@@ -25,6 +26,10 @@ export class AuthController {
 
 	@Post()
 	@UseGuards(LocalAuthGuard)
+	@ApiOperation({
+		summary: "유저 인증 및 토큰발급",
+		description: "인증 후 토큰을 발급한다.",
+	})
 	@ApiBody({ type: AuthDto })
 	@ApiOkResponse({ description: "성공적으로 토큰이 발급됨" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였음" })
