@@ -1,0 +1,12 @@
+[33m0301536[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit: Feat : entity eager 수정
+[33m3671875[m HEAD@{1}: commit (merge): Merge branch 'main' of https://github.com/real-programmers-r9/r9-backend
+[33mf12b8e2[m HEAD@{2}: commit: Feat : Update-job.Dto
+[33md6eb77e[m HEAD@{3}: commit: Feat : 공고 delete 본인만 가능하도록 수정
+[33m06e99b4[m HEAD@{4}: commit: Feat : 자신이쓴 공고 목록 불러오는 기능
+[33m550627d[m HEAD@{5}: commit: Delete : 중복되는파일 삭제
+[33m037a772[m HEAD@{6}: pull r9 main: Merge made by the 'recursive' strategy.
+[33m0c09ec2[m HEAD@{7}: commit: Fix : Job.entity 타입 오류 해결
+[33mc30a481[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{8}: Branch: renamed refs/heads/master to refs/heads/main
+[33mc30a481[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{10}: commit (merge): Merge branch 'master' of https://github.com/leejiho9898/r9-backend
+[33m4cc3052[m HEAD@{11}: commit: Comment : 주석 위치 수정
+[33mdbc85f3[m HEAD@{12}: commit (initial): Feat : user, job 관계 만들기

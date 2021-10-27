@@ -11,6 +11,7 @@ import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { JobsModule } from "./jobs/jobs.module";
+import { Job } from "./jobs/job.entity";
 import { HashtagModule } from "./hashtag/hashtag.module";
 import { Hashtag } from "./hashtag/entities/hashtag.entity";
 
@@ -49,7 +50,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
 		type: "postgres",
 		url: configService.get<string>("DATABASE_URL"),
 		logging: configService.get<string>("NODE_ENV") !== "production",
-		entities: [User, Hashtag],
+		entities: [User, Job, Hashtag],
 		synchronize: configService.get<string>("NODE_ENV") !== "production",
 	}),
 	inject: [ConfigService],

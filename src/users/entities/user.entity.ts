@@ -3,6 +3,7 @@ import {
 	BeforeUpdate,
 	Column,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { IsEmail, IsEnum, IsString, IsUUID, Matches } from "class-validator";
@@ -11,13 +12,13 @@ import { ApiProperty } from "@nestjs/swagger";
 import bcrypt from "bcrypt";
 import { Base } from "src/common/entities/base.entitiy";
 import { REGEXP_PASSWORD } from "src/common/constants/regexp";
+import { Job } from "src/jobs/job.entity";
 
 export enum Role {
 	ADMIN = "ADMIN",
 	USER = "USER",
 	BUSINESS = "BUSINESS",
 }
-
 @Entity()
 export class User extends Base {
 	@PrimaryGeneratedColumn("uuid")
@@ -50,6 +51,9 @@ export class User extends Base {
 	@ApiProperty()
 	@IsString()
 	address: string;
+
+	@OneToMany((type) => Job, (job) => job.writer)
+	jobs: Job[];
 
 	@BeforeInsert()
 	@BeforeUpdate()

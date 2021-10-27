@@ -34,7 +34,6 @@ export class AuthController {
 		@Res({ passthrough: true }) response: Response,
 	) {
 		const accessToken = await this.authService.generateTokens(user);
-
 		response.cookie(COOKIE_ACCESS_TOKEN, accessToken, {
 			httpOnly: true,
 			secure: this.configService.get<string>("NODE_ENV") === "production",
