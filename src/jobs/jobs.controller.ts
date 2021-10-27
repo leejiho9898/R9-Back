@@ -14,6 +14,7 @@ import { CurrentUser } from "src/common/decorators/current-user.decorator";
 
 import { User } from "src/users/entities/user.entity";
 import { CreateJobDto } from "./dto/create-job.dto";
+import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./job.entity";
 import { JobsService } from "./jobs.service";
 
@@ -54,9 +55,9 @@ export class JobsController {
 
 	@Patch("updateJob/:id")
 	updateJob(
-		@Body() createJobDto: CreateJobDto,
+		@Body() updateJobDto: UpdateJobDto,
 		@Param("id") id: string,
 	): Promise<Job> {
-		return this.jobsService.updateJob(createJobDto, id);
+		return this.jobsService.updateJob(updateJobDto, id);
 	}
 }

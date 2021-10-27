@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
+import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./job.entity";
 
 @Injectable()
@@ -67,10 +68,10 @@ export class JobsService {
 
 	// 공고 업데이트
 	async updateJob(
-		@Body() createJobDto: CreateJobDto,
+		@Body() updateJobDto: UpdateJobDto,
 		id: string,
 	): Promise<Job> {
-		const { title, detail, deadline, adress, personnel, age } = createJobDto;
+		const { title, detail, deadline, adress, personnel, age } = updateJobDto;
 		const job = await this.readJobDetail(id);
 		job.title = title;
 		job.detail = detail;
