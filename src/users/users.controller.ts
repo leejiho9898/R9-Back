@@ -13,6 +13,7 @@ import {
 	ApiForbiddenResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
+	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
 import { Auth } from "src/common/decorators/auth.decorator";
@@ -26,48 +27,56 @@ export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
 	@Post()
+	@ApiOperation({ summary: "유저 생성", description: "유저를 생성한다." })
 	@ApiCreatedResponse({ description: "성공적으로 사용자 생성이 완료됨" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	create(@Body() createUserDto: CreateUserDto) {
-		return this.usersService.create(createUserDto);
+	createUser(@Body() createUserDto: CreateUserDto) {
+		return this.usersService.createUser(createUserDto);
 	}
 
-	@Auth(["ADMIN"])
 	@Get()
+	@Auth(["ADMIN"])
+	@ApiOperation({ summary: "유저 검색", description: "유저를 검색한다." })
 	@ApiOkResponse({ description: "성공적으로 검색이 완료됨" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	findAll() {
-		return this.usersService.findAll();
+	findUsers() {
+		return this.usersService.findUsers();
 	}
 
-	@Auth(["ADMIN"])
 	@Get(":id")
+	@Auth(["ADMIN"])
+	@ApiOperation({
+		summary: "유저 검색",
+		description: "한명의 유저를 검색한다.",
+	})
 	@ApiOkResponse({ description: "성공적으로 검색이 완료됨" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
 	@ApiNotFoundResponse({ description: "존재하지 않는 사용자" })
-	findOne(@Param("id") id: string) {
-		return this.usersService.findOneById(id);
+	findOneUserById(@Param("id") id: string) {
+		return this.usersService.findOneUserById(id);
 	}
 
-	@Auth(["ADMIN"])
 	@Patch(":id")
+	@Auth(["ADMIN"])
+	@ApiOperation({ summary: "유저 수정", description: "유저정보를 수정한다." })
 	@ApiOkResponse({ description: "성공적으로 사용자가 수정됨" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
 	@ApiNotFoundResponse({ description: "존재하지 않는 사용자" })
-	update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(id, updateUserDto);
+	updateUser(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+		return this.usersService.updateUser(id, updateUserDto);
 	}
 
-	@Auth(["ADMIN"])
 	@Delete(":id")
+	@Auth(["ADMIN"])
+	@ApiOperation({ summary: "유저 삭제", description: "유저를 삭제한다." })
 	@ApiOkResponse({ description: "성공적으로 사용자가 삭제됨" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
 	@ApiNotFoundResponse({ description: "존재하지 않는 사용자" })
-	remove(@Param("id") id: string) {
-		return this.usersService.delete(id);
+	deleteUser(@Param("id") id: string) {
+		return this.usersService.deleteUser(id);
 	}
 }
