@@ -47,8 +47,9 @@ export class JobsController {
 	}
 
 	@Delete("deleteJob/:id")
-	deleteJob(@Param("id") id: string): Promise<void> {
-		return this.jobsService.deleteJob(id);
+	deleteJob(@Param("id") id: string,
+	@CurrentUser() writer:User): Promise<void> {
+		return this.jobsService.deleteJob(id,writer);
 	}
 
 	@Patch("updateJob/:id")

@@ -56,8 +56,8 @@ export class JobsService {
 	}
 
 	// 공고 삭제
-	async deleteJob(id: string): Promise<void> {
-		const result = await this.jobsRepository.delete(id);
+	async deleteJob(id: string, writer: User): Promise<void> {
+		const result = await this.jobsRepository.delete({ id, writer });
 		if (result.affected === 0) {
 			throw new NotFoundException(
 				`해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`,
