@@ -16,7 +16,6 @@ import {
 } from "@nestjs/swagger";
 import { CreateHashtagDto } from "./dto/create-hashtag.dto";
 import { UpdateHashtagDto } from "./dto/update-hashtag.dto";
-
 import { HashtagService } from "./hashtag.service";
 
 @Controller("hashtag")

@@ -1,4 +1,4 @@
-import { ApiOperation, ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsNumber, IsString, IsUUID } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { User } from "src/users/entities/user.entity";
@@ -12,7 +12,7 @@ export class Job extends Base {
 	id: string;
 
 	// 작성자 ID
-	@ManyToOne((type) => User, (user) => user.jobs, { eager: true })
+	@ManyToOne(() => User, (user) => user.jobs, { eager: true })
 	@ApiProperty()
 	@IsString()
 	writer: User;
@@ -53,4 +53,3 @@ export class Job extends Base {
 	@IsString()
 	adress: string;
 }
-
