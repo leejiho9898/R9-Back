@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
+import { Auth } from "src/common/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 
 import { User } from "src/users/entities/user.entity";
@@ -24,7 +25,7 @@ export class JobsController {
 	constructor(private jobsService: JobsService) {}
 
 	@Post("createJob")
-	@UseGuards(AuthGuard())
+	@Auth(["ANY"])
 	createJob(
 		@Body() createJobDto: CreateJobDto,
 		@CurrentUser() writer: User,
@@ -34,6 +35,7 @@ export class JobsController {
 
 	@Get("readAllJobs")
 	readAllJobs() {
+		console.log("asdasd");
 		return this.jobsService.readAllJobs();
 	}
 
@@ -48,9 +50,11 @@ export class JobsController {
 	}
 
 	@Delete("deleteJob/:id")
-	deleteJob(@Param("id") id: string,
-	@CurrentUser() writer:User): Promise<void> {
-		return this.jobsService.deleteJob(id,writer);
+	deleteJob(
+		@Param("id") id: string,
+		@CurrentUser() writer: User,
+	): Promise<void> {
+		return this.jobsService.deleteJob(id, writer);
 	}
 
 	@Patch("updateJob/:id")

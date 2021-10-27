@@ -12,7 +12,7 @@ export class Job extends Base {
 	id: string;
 
 	// 작성자 ID
-	@ManyToOne((type) => User, (user) => user.jobs, { eager: false })
+	@ManyToOne((type) => User, (user) => user.jobs, { eager: true })
 	@ApiProperty()
 	@IsString()
 	writer: User;

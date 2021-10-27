@@ -52,7 +52,7 @@ export class User extends Base {
 	@IsString()
 	address: string;
 
-	@OneToMany((type) => Job, (job) => job.writer, { eager: true })
+	@OneToMany((type) => Job, (job) => job.writer)
 	jobs: Job[];
 
 	@BeforeInsert()
