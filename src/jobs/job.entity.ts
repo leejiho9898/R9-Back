@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiOperation, ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsNumber, IsString, IsUUID } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { User } from "src/users/entities/user.entity";
@@ -53,3 +53,4 @@ export class Job extends Base {
 	@IsString()
 	adress: string;
 }
+

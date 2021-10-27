@@ -33,12 +33,12 @@ export class JobsService {
 	}
 
 	// 모든 공고 불러오기
-	async readAllJobs(): Promise<Job[]> {
+	async findAllJobs(): Promise<Job[]> {
 		return this.jobsRepository.find();
 	}
 
 	// 내가올린 공고 불러오기
-	async readMyJobs(writer: User): Promise<Job[]> {
+	async findMyJobs(writer: User): Promise<Job[]> {
 		const query = this.jobsRepository.createQueryBuilder("job");
 		query.where("job.writerId=:writerId", { writerId: writer.id });
 		const jobs = await query.getMany();
@@ -46,7 +46,7 @@ export class JobsService {
 	}
 
 	// 특정 id값의 공고 불러오기
-	async readJobDetail(id: string): Promise<Job> {
+	async findJobById(id: string): Promise<Job> {
 		const found = await this.jobsRepository.findOne(id);
 		if (!found) {
 			throw new NotFoundException(
@@ -72,7 +72,7 @@ export class JobsService {
 		id: string,
 	): Promise<Job> {
 		const { title, detail, deadline, adress, personnel, age } = updateJobDto;
-		const job = await this.readJobDetail(id);
+		const job = await this.findJobById(id);
 		job.title = title;
 		job.detail = detail;
 		job.deadline = deadline;
