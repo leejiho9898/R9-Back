@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { Controller, Get, Res, UseGuards } from "@nestjs/common";
+import { Controller, Post, Res, UseGuards } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import {
 	ApiBadRequestResponse,
@@ -23,7 +23,7 @@ export class AuthController {
 		private readonly authService: AuthService,
 	) {}
 
-	@Get()
+	@Post()
 	@UseGuards(LocalAuthGuard)
 	@ApiBody({ type: AuthDto })
 	@ApiOkResponse({ description: "성공적으로 토큰이 발급됨" })
