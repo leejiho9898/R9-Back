@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	Body,
 	Controller,
 	Delete,
@@ -6,6 +7,7 @@ import {
 	Param,
 	Patch,
 	Post,
+	Query,
 } from "@nestjs/common";
 import {
 	ApiBadRequestResponse,
@@ -16,7 +18,6 @@ import {
 } from "@nestjs/swagger";
 import { CreateHashtagDto } from "./dto/create-hashtag.dto";
 import { UpdateHashtagDto } from "./dto/update-hashtag.dto";
-
 import { HashtagService } from "./hashtag.service";
 
 @Controller("hashtag")
@@ -46,6 +47,17 @@ export class HashtagController {
 		return this.hashtagService.create(createHashtagDto);
 	}
 
+	@Get(":id")
+	@ApiOperation({
+		summary: "해시태그 검색 API",
+		description: "아이디로 해시태그를 검색한다.",
+	})
+	@ApiOkResponse({ description: "성공적으로 해시태그 가져옴" })
+	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+	findById(@Param("id") id: number) {
+		return this.hashtagService.findOneById(id);
+	}
+
 	@Patch(":id")
 	@ApiOperation({
 		summary: "해시태그 수정 API",
@@ -71,40 +83,7 @@ export class HashtagController {
 		return this.hashtagService.delete(id);
 	}
 
-	@Get(":id")
-	@ApiOperation({
-		summary: "해시태그 검색 API",
-		description: "아이디로 해시태그를 검색한다.",
-	})
-	@ApiOkResponse({ description: "성공적으로 해시태그 가져옴" })
-	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	findById(@Param("id") id: number) {
-		return this.hashtagService.findOneById(id);
-	}
-
-	@Get(":name")
-	@ApiOperation({
-		summary: "해시태그 검색 API",
-		description: "이름으로 해시태그를 검색한다.",
-	})
-	@ApiOkResponse({ description: "성공적으로 해시태그 가져옴" })
-	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	findByName(@Param("name") name: string) {
-		return this.hashtagService.findOneByName(name);
-	}
-
-	@Get(":category")
-	@ApiOperation({
-		summary: "해시태그 검색 API",
-		description: "카테고리로 해시태그를 검색한다.",
-	})
-	@ApiOkResponse({ description: "성공적으로 해시태그 가져옴" })
-	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	findByCategory(@Param("category") category: string) {
-		return this.hashtagService.findByCategory(category);
-	}
-
-	@Get("category")
+	@Post("category")
 	@ApiOperation({
 		summary: "해시태그 검색 API",
 		description: "카테고리 목록 해시태그를 검색한다.",
@@ -113,5 +92,22 @@ export class HashtagController {
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
 	getCategory() {
 		return this.hashtagService.findCategory();
+	}
+
+	@Post("search")
+	@ApiOperation({
+		summary: "해시태그 검색 API",
+		description: "제목, 해시태그를 검색한다.",
+	})
+	@ApiOkResponse({ description: "성공적으로 해시태그 목록을 가져옴" })
+	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+	search(@Query("name") name: string, @Query("category") category: string) {
+		let query = {};
+		if (name && category) query = { name, category };
+		if (name && !category) query = { name };
+		if (!name && category) query = { category };
+		if (!name && !category) throw new BadRequestException();
+
+		return this.hashtagService.seach(query);
 	}
 }

@@ -22,6 +22,14 @@ export class HashtagService {
 		return "성공적으로 생성되었습니다.";
 	}
 
+	async findOneById(id: number) {
+		const found = await this.hashtagRepository.findOne({ id });
+		if (!found) {
+			throw new NotFoundException(`Hashtag with id '${id}' does not exist`);
+		}
+		return found;
+	}
+
 	async update(id: number, updateHashtagDto: UpdateHashtagDto) {
 		const found = await this.hashtagRepository.findOne({ id });
 		if (!found) {
@@ -42,35 +50,17 @@ export class HashtagService {
 		return "성공적으로 삭제되었습니다.";
 	}
 
-	async findOneById(id: number) {
-		const found = await this.hashtagRepository.findOne({ id });
-		if (!found) {
-			throw new NotFoundException(`Hashtag with id '${id}' does not exist`);
-		}
-		return found;
-	}
-
-	async findOneByName(name: string) {
-		const found = await this.hashtagRepository.findOne({ name });
-		if (!found) {
-			throw new NotFoundException(`Hashtag with id '${name}' does not exist`);
-		}
-		return found;
-	}
-
-	async findByCategory(category: string) {
-		const found = await this.hashtagRepository.find({ category });
-		if (!found) {
-			throw new NotFoundException(
-				`Hashtag with id '${category}' does not exist`,
-			);
-		}
-		return found;
-	}
-
 	async findCategory() {
 		const found = await this.hashtagRepository.findCategory();
 		if (!found) {
+			throw new NotFoundException("no date");
+		}
+		return found;
+	}
+
+	async seach(query) {
+		const found = await this.hashtagRepository.find(query);
+		if (found.length < 1) {
 			throw new NotFoundException("no date");
 		}
 		return found;
