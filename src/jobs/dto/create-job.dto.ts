@@ -1,5 +1,5 @@
 import { PickType } from "@nestjs/swagger";
-import { Job } from "../job.entity";
+import { Job } from "../entities/job.entity";
 
 export class CreateJobDto extends PickType(Job, [
 	"title",
@@ -8,5 +8,4 @@ export class CreateJobDto extends PickType(Job, [
 	"personnel",
 	"age",
 	"deadline",
-
 ] as const) {}

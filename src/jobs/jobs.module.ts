@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthModule } from "src/auth/auth.module";
 import { JobsController } from "./jobs.controller";
 import { JobsService } from "./jobs.service";
-import { Job } from "./job.entity";
-import { AuthModule } from "src/auth/auth.module";
+import { Job } from "./entities/job.entity";
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Job]), AuthModule],
