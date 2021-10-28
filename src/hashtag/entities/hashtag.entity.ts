@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Job } from "src/jobs/entities/job.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Hashtag extends Base {
@@ -19,4 +20,9 @@ export class Hashtag extends Base {
 	@ApiProperty()
 	@IsString()
 	name: string;
+
+	@ManyToMany(() => Job, (job) => job.id)
+	@ApiProperty()
+	@IsNumber()
+	job: Job;
 }
