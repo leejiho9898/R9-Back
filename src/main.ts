@@ -3,7 +3,6 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
-import { COOKIE_ACCESS_TOKEN } from "./common/constants/cookies";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -17,7 +16,10 @@ async function bootstrap() {
 		.setTitle("R9")
 		.setDescription("R9 API")
 		.setVersion("0.0.1")
-		.addCookieAuth(COOKIE_ACCESS_TOKEN)
+		.addBearerAuth(
+			{ type: "http", scheme: "bearer", bearerFormat: "JWT" },
+			"access-token",
+		)
 		.build();
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup("docs", app, document);

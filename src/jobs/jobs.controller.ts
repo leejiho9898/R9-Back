@@ -6,9 +6,7 @@ import {
 	Param,
 	Patch,
 	Post,
-	UseGuards,
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/common/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
@@ -46,7 +44,6 @@ export class JobsController {
 		summary: "자신이 쓴 공고 불러오기API",
 		description: "자신이 쓴 공고들을 불러온다",
 	})
-	@UseGuards(AuthGuard())
 	findMyJobs(@CurrentUser() writer: User) {
 		return this.jobsService.findMyJobs(writer);
 	}
