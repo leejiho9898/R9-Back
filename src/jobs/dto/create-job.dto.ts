@@ -1,4 +1,5 @@
 import { PickType } from "@nestjs/swagger";
+import { IsNumber } from "class-validator";
 import { Job } from "../entities/job.entity";
 
 export class CreateJobDto extends PickType(Job, [
@@ -8,4 +9,9 @@ export class CreateJobDto extends PickType(Job, [
 	"personnel",
 	"age",
 	"deadline",
-] as const) {}
+	"wage",
+	"status",
+] as const) {
+	@IsNumber()
+	hashtags: number[];
+}
