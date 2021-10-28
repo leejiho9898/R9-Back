@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
-
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./entities/job.entity";
 
@@ -16,21 +15,8 @@ export class JobsService {
 
 	// 공고 생성
 	async createJob(createJobDto: CreateJobDto, writer: User) {
-		// const job = this.jobsRepository.create({ ...createJobDto, writer });
-		const { title, detail, deadline, adress, personnel, age } = createJobDto;
-		const job = this.jobsRepository.create({
-			title,
-			detail,
-			adress,
-			personnel,
-			age,
-			writer,
-			deadline,
-			// 해쉬태그 빼놧어요
-		});
-		await this.jobsRepository.save(job);
-
-		return job;
+		const job = this.jobsRepository.create({ ...createJobDto, writer });
+		return await this.jobsRepository.save(job);
 	}
 
 	// 모든 공고 불러오기

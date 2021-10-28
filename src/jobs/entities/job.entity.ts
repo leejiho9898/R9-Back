@@ -27,9 +27,8 @@ export class Job extends Base {
 	writer: User;
 
 	/** 해쉬태그 */
-	@ManyToMany(() => Hashtag, (hashtag) => hashtag.id, {
+	@ManyToMany(() => Hashtag, (hashtag) => hashtag.job, {
 		eager: true,
-		cascade: true,
 	})
 	@ApiProperty()
 	@JoinTable()

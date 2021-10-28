@@ -21,7 +21,7 @@ export class Hashtag extends Base {
 	@IsString()
 	name: string;
 
-	@ManyToMany(() => Job, (job) => job.id)
+	@ManyToMany(() => Job, (job) => job.hashtags)
 	@ApiProperty()
 	@IsNumber()
 	job: Job;
