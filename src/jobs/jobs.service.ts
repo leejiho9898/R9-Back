@@ -39,9 +39,7 @@ export class JobsService {
 
 	// 내가올린 공고 불러오기
 	async findMyJobs(writer: User): Promise<Job[]> {
-		const query = this.jobsRepository.createQueryBuilder("job");
-		query.where("job.writerId=:writerId", { writerId: writer.id });
-		const jobs = await query.getMany();
+		const jobs = await this.jobsRepository.find({ writer });
 		return jobs;
 	}
 
