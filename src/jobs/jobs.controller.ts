@@ -32,13 +32,22 @@ export class JobsController {
 	}
 
 	/** 모든 공고 불러오기 */
-	@Get()
+	@Get("")
 	@ApiOperation({
 		summary: "모든 공고 불러오기API",
 		description: "모든 공고를 불러온다",
 	})
 	findAllJobs() {
 		return this.jobsService.findAllJobs();
+	}
+	/** 특정  hashtag를 가진 공고 불러오기 */
+	@Get("hashtag/:hashtagId")
+	@ApiOperation({
+		summary: "특정 해시태그를 가진 공고 불러오기API",
+		description: "특정 해시태그를 가진 공고들을 불러온다.",
+	})
+	findJobsByHashtag(@Param("hashtagId") hashtagId: number) {
+		return this.jobsService.findJobsByHashtag(hashtagId);
 	}
 
 	/** 내가올린 공고 불러오기 */

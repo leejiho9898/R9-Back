@@ -1,7 +1,7 @@
 import { Body, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
-import { Repository } from "typeorm";
+import { RelationId, Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./entities/job.entity";
@@ -20,18 +20,26 @@ export class JobsService {
 	}
 
 	// 모든 공고 불러오기
-	async findAllJobs(): Promise<Job[]> {
+	async findAllJobs() {
 		return this.jobsRepository.find();
 	}
 
+	async findJobsByHashtag(hashtagId: number) {
+		const query = this.jobsRepository.createQueryBuilder("job");
+		query.leftJoin("job.hashtags", "hashtag");
+		query.where("hashtag.id=:hashtagId", { hashtagId });
+		const jobs = await query.getMany();
+		return jobs;
+	}
+
 	// 내가올린 공고 불러오기
-	async findMyJobs(writer: User): Promise<Job[]> {
+	async findMyJobs(writer: User) {
 		const jobs = await this.jobsRepository.find({ writer });
 		return jobs;
 	}
 
 	// 특정 id값의 공고 불러오기
-	async findJobById(id: number): Promise<Job> {
+	async findJobById(id: number) {
 		const found = await this.jobsRepository.findOne(id);
 		if (!found) {
 			throw new NotFoundException(
