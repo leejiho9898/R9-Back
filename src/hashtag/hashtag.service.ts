@@ -59,7 +59,7 @@ export class HashtagService {
 	}
 
 	async seach(query) {
-		const found = await this.hashtagRepository.find(query);
+		const found = await this.hashtagRepository.find({ order: query, take: 2 });
 		if (found.length < 1) {
 			throw new NotFoundException("no date");
 		}
