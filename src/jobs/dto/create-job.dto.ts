@@ -10,6 +10,7 @@ export class CreateJobDto extends PickType(Job, [
 	"personnel",
 	"age",
 	"deadline",
+	"payment",
 	"wage",
 	"status",
 	"hashtags",

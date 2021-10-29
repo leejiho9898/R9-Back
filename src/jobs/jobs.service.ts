@@ -1,7 +1,7 @@
 import { Body, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
-import { RelationId, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./entities/job.entity";
@@ -60,18 +60,45 @@ export class JobsService {
 	}
 
 	// 공고 업데이트
-	async updateJob(
-		@Body() updateJobDto: UpdateJobDto,
-		id: number,
-	): Promise<Job> {
+	async updateJob(@Body() updateJobDto: UpdateJobDto, id: number) {
 		const { title, detail, deadline, adress, personnel, age } = updateJobDto;
-		const job = await this.findJobById(id);
-		job.title = title;
-		job.detail = detail;
-		job.deadline = deadline;
-		job.adress = adress;
-		job.personnel = personnel;
-		job.age = age;
-		return this.jobsRepository.save(job);
+		const job = await this.jobsRepository.update(
+			{ id },
+			{
+				title,
+				detail,
+				deadline,
+				adress,
+				personnel,
+				age,
+			},
+		);
+		return job;
 	}
+	// const {
+	// 	title,
+	// 	detail,
+	// 	deadline,
+	// 	adress,
+	// 	personnel,
+	// 	age,
+	// 	wage,
+	// 	status,
+	// 	payment,
+	// 	hashtags,
+	// } = updateJobDto;
+	// job.title = title;
+	// job.detail = detail;
+	// job.deadline = deadline;
+	// job.adress = adress;
+	// job.personnel = personnel;
+	// job.age = age;
+	// job.wage = wage;
+	// job.status = status;
+	// job.payment = payment;
+	// job.hashtags = hashtags;
+	// await this.jobsRepository.save(job);
+	// return this.jobsRepository.save(
+	// 	this.jobsRepository.create({ id, ...updateJobDto }),
+	// );
 }

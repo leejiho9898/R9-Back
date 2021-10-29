@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+	IsDateString,
+	IsEnum,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { Hashtag } from "src/hashtag/entities/hashtag.entity";
 import { User } from "src/users/entities/user.entity";
@@ -11,6 +17,7 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
+import { PayMentsMethod } from "../enum/job- payment.enum";
 import { JobStatus } from "../enum/job-status.enum";
 
 @Entity()
@@ -55,8 +62,8 @@ export class Job extends Base {
 	/** 인원 */
 	@Column()
 	@ApiProperty()
-	@IsString()
-	personnel: string;
+	@IsNumber()
+	personnel: number;
 
 	/** 희망연령 */
 	@Column()
@@ -70,7 +77,14 @@ export class Job extends Base {
 	@IsString()
 	adress: string;
 
-	/** 시급 */
+	/** 임금 지불 방식 */
+	@Column({ enum: PayMentsMethod, default: PayMentsMethod.PERHOUR })
+	@ApiProperty()
+	@IsOptional()
+	@IsEnum(PayMentsMethod)
+	payment: PayMentsMethod;
+
+	/** 임금 */
 	@Column({ default: 8750 })
 	@ApiProperty()
 	@IsOptional()
@@ -78,9 +92,9 @@ export class Job extends Base {
 	wage: number;
 
 	/** 공고 상태 */
-	@Column({ default: JobStatus.ACTIVATE })
+	@Column({ enum: JobStatus, default: JobStatus.ACTIVATE })
 	@ApiProperty()
 	@IsOptional()
-	@IsString()
+	@IsEnum(JobStatus)
 	status: JobStatus;
 }

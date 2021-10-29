@@ -40,6 +40,7 @@ export class JobsController {
 	findAllJobs() {
 		return this.jobsService.findAllJobs();
 	}
+
 	/** 특정  hashtag를 가진 공고 불러오기 */
 	@Get("hashtag/:hashtagId")
 	@ApiOperation({
