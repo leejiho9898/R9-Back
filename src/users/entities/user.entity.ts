@@ -58,6 +58,12 @@ export class User extends Base {
 	@Column({ nullable: true })
 	@ApiProperty()
 	@IsString()
+	@Exclude({ toPlainOnly: true })
+	token: string;
+
+	@Column({ nullable: true })
+	@ApiProperty()
+	@IsString()
 	address: string;
 
 	@OneToMany(() => Job, (job) => job.writer)
