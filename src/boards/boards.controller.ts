@@ -13,13 +13,16 @@ import {
 	ApiOkResponse,
 	ApiOperation,
 } from "@nestjs/swagger";
-import { BoardService } from "./board.service";
+import { Auth } from "src/common/decorators/auth.decorator";
+import { CurrentUser } from "src/common/decorators/current-user.decorator";
+import { User } from "src/users/entities/user.entity";
+import { BoardsService } from "./boards.service";
 import { CreateBoardDto } from "./dto/create-board.dto";
 import { UpdateBoardDto } from "./dto/update-board.dto";
 
 @Controller("board")
-export class BoardController {
-	constructor(private boardService: BoardService) {}
+export class BoardsController {
+	constructor(private boardsService: BoardsService) {}
 
 	@Get()
 	@ApiOperation({
@@ -28,10 +31,10 @@ export class BoardController {
 	})
 	@ApiOkResponse({ description: "성공적으로 게시물을 가져옴" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	find(@Query("id") id: number) {
-		const query = { id };
+	findBoards(@Query("id") id: number, @Query("user") writer: string) {
+		const query = { id, writer };
 
-		return this.boardService.find(query);
+		return this.boardsService.findBoards(query);
 	}
 
 	@Post()
@@ -41,8 +44,12 @@ export class BoardController {
 	})
 	@ApiOkResponse({ description: "성공적으로 게시물을 생성완료" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	create(@Body() createBoardDto: CreateBoardDto) {
-		return this.boardService.create(createBoardDto);
+	@Auth(["ANY"])
+	createBoard(
+		@Body() createBoardDto: CreateBoardDto,
+		@CurrentUser() writer: User,
+	) {
+		return this.boardsService.createBoard(createBoardDto, writer);
 	}
 
 	@Patch(":id")
@@ -52,11 +59,13 @@ export class BoardController {
 	})
 	@ApiOkResponse({ description: "성공적으로 게시물을 수정" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	updateHashtag(
+	@Auth(["ANY"])
+	updateBoard(
 		@Param("id") id: number,
 		@Body() updateBoardDto: UpdateBoardDto,
+		@CurrentUser() writer: User,
 	) {
-		return this.boardService.update(id, updateBoardDto);
+		return this.boardsService.updateBoard(id, updateBoardDto, writer);
 	}
 
 	@Delete(":id")
@@ -66,7 +75,8 @@ export class BoardController {
 	})
 	@ApiOkResponse({ description: "성공적으로 게시물 삭제" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	deleteHashtag(@Param("id") id: number) {
-		return this.boardService.delete(id);
+	@Auth(["ANY"])
+	deleteBoard(@Param("id") id: number, @CurrentUser() writer: User) {
+		return this.boardsService.deleteBoard(id, writer);
 	}
 }

@@ -11,11 +11,11 @@ import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { JobsModule } from "./jobs/jobs.module";
-import { HashtagModule } from "./hashtag/hashtag.module";
+import { HashtagsModule } from "./hashtags/hashtags.module";
 import { Job } from "./jobs/entities/job.entity";
-import { Hashtag } from "./hashtag/entities/hashtag.entity";
-import { BoardModule } from "./board/board.module";
-import { Board } from "./board/entities/board.entity";
+import { Hashtag } from "./hashtags/entities/hashtag.entity";
+import { BoardsModule } from "./boards/boards.module";
+import { Board } from "./boards/entities/board.entity";
 
 const validationPipe: Provider = {
 	provide: "APP_PIPE",
@@ -65,8 +65,8 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
 		UsersModule,
 		AuthModule,
 		JobsModule,
-		HashtagModule,
-		BoardModule,
+		HashtagsModule,
+		BoardsModule,
 	],
 	providers: [validationPipe, classSerializerInterceptor],
 })

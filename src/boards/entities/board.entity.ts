@@ -11,7 +11,7 @@ export class Board extends Base {
 	@IsNumber()
 	id: number;
 
-	@ManyToOne(() => User, (user) => user.boards, { eager: false })
+	@ManyToOne(() => User, (user) => user.board, { eager: false })
 	writer: User;
 
 	@Column()

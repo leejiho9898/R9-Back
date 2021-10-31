@@ -20,7 +20,7 @@ import bcrypt from "bcrypt";
 import { Base } from "src/common/entities/base.entitiy";
 import { REGEXP_PASSWORD } from "src/common/constants/regexp";
 import { Job } from "src/jobs/entities/job.entity";
-import { Board } from "src/board/entities/board.entity";
+import { Board } from "src/boards/entities/board.entity";
 
 export enum Role {
 	ADMIN = "ADMIN",
@@ -64,8 +64,8 @@ export class User extends Base {
 	@OneToMany(() => Job, (job) => job.writer)
 	jobs: Job[];
 
-	@OneToMany(() => Board, (board) => board.user, { eager: true })
-	boards: Board[];
+	@OneToMany(() => Board, (board) => board.writer, { eager: true })
+	board: Board[];
 
 	@BeforeInsert()
 	@BeforeUpdate()
