@@ -71,6 +71,12 @@ export class Job extends Base {
 	@IsNumber()
 	age: number;
 
+	/** 근무형태 */
+	@Column()
+	@ApiProperty()
+	@IsString()
+	workType: string;
+
 	/** 주소 */
 	@Column()
 	@ApiProperty()
@@ -83,6 +89,24 @@ export class Job extends Base {
 	@IsOptional()
 	@IsEnum(PayMentsMethod)
 	payment: PayMentsMethod;
+
+	/** 근무요일 */
+	@Column()
+	@ApiProperty()
+	@IsString()
+	workingDay: string[];
+
+	/** 근무 시작 시간 */
+	@Column("time")
+	@ApiProperty()
+	@IsDateString()
+	startTime: Date;
+
+	/** 근무 종료 시간 */
+	@Column("time")
+	@ApiProperty()
+	@IsDateString()
+	endTime: Date;
 
 	/** 임금 */
 	@Column({ default: 8750 })

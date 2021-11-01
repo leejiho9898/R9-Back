@@ -14,6 +14,10 @@ export class CreateJobDto extends PickType(Job, [
 	"wage",
 	"status",
 	"hashtags",
+	"workType",
+	"workingDay",
+	"startTime",
+	"endTime",
 ] as const) {
 	@IsOptional({ each: true })
 	hashtags: Hashtag[];
