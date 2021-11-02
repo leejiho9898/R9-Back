@@ -1,6 +1,4 @@
 import { PickType } from "@nestjs/swagger";
-import { IsOptional } from "class-validator";
-import { Hashtag } from "src/hashtag/entities/hashtag.entity";
 import { Job } from "../entities/job.entity";
 
 export class CreateJobDto extends PickType(Job, [
@@ -18,7 +16,4 @@ export class CreateJobDto extends PickType(Job, [
 	"workingDay",
 	"startTime",
 	"endTime",
-] as const) {
-	@IsOptional({ each: true })
-	hashtags: Hashtag[];
-}
+] as const) {}

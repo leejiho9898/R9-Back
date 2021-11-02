@@ -41,6 +41,7 @@ export class Job extends Base {
 	})
 	@ApiProperty()
 	@JoinTable()
+	@IsOptional({ each: true })
 	hashtags: Hashtag[];
 
 	/** 공고 제목 */

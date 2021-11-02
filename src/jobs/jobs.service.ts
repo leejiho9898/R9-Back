@@ -73,29 +73,3 @@ export class JobsService {
 		await this.jobsRepository.save(updatedJob);
 	}
 }
-
-// const {
-// 	title,
-// 	detail,
-// 	deadline,
-// 	adress,
-// 	personnel,
-// 	age,
-// 	wage,
-// 	status,
-// 	payment,
-// 	hashtags,
-// } = updateJobDto;
-// job.title = title;
-// job.detail = detail;
-// job.deadline = deadline;
-// job.adress = adress;
-// job.personnel = personnel;
-// job.age = age;
-// job.wage = wage;
-// job.status = status;
-// job.payment = payment;
-// job.hashtags = hashtags;
-// await this.jobsRepository.save(job);
-
-// );
