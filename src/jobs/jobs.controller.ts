@@ -8,7 +8,7 @@ import {
 	Post,
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { Auth } from "src/common/decorators/auth.decorator";
+import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
 import { CreateJobDto } from "./dto/create-job.dto";

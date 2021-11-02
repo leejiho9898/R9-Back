@@ -3,27 +3,35 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
 import { AppModule } from "./app.module";
+import { ACCESS_TOKEN_NAME } from "./common/constants/auth";
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: "http://localhost:3000",
+      credentials: true,
+    },
+  });
 
-	const configService = app.get(ConfigService);
-	const port = configService.get<number>("PORT");
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>("PORT");
 
-	app.use(cookieParser());
+  app.use(cookieParser());
 
-	const config = new DocumentBuilder()
-		.setTitle("R9")
-		.setDescription("R9 API")
-		.setVersion("0.0.1")
-		.addBearerAuth(
-			{ type: "http", scheme: "bearer", bearerFormat: "JWT" },
-			"access-token",
-		)
-		.build();
-	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup("docs", app, document);
+  const config = new DocumentBuilder()
+    .setTitle("R9")
+    .setDescription("R9 API")
+    .setVersion("0.0.1")
+    .addCookieAuth(
+      ACCESS_TOKEN_NAME,
+      { type: "apiKey", scheme: "", in: "cookie" },
+      "auth"
+    )
+    .build();
 
-	await app.listen(port);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup("docs", app, document);
+
+  await app.listen(port);
 }
 bootstrap();

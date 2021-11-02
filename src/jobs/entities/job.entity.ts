@@ -9,7 +9,7 @@ import {
 	IsString,
 } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
-import { Hashtag } from "src/hashtag/entities/hashtag.entity";
+import { Hashtag } from "src/hashtags/entities/hashtag.entity";
 import { User } from "src/users/entities/user.entity";
 import {
 	Column,
@@ -24,12 +24,13 @@ import { JobStatus } from "../enum/job-status.enum";
 
 @Entity()
 export class Job extends Base {
+	/** ID */
 	@PrimaryGeneratedColumn()
 	@ApiProperty()
 	@IsNumber()
 	id: number;
-	/** 작성자 ID */
 
+	/** 작성자 ID */
 	@ManyToOne(() => User, (writer) => writer.jobs, { eager: true })
 	@ApiProperty()
 	@IsString()

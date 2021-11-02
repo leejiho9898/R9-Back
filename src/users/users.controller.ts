@@ -16,7 +16,7 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Auth } from "src/common/decorators/auth.decorator";
+import { Auth } from "src/auth/decorators/auth.decorator";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
