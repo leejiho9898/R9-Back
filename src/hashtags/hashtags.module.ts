@@ -6,9 +6,9 @@ import { HashtagsService } from "./hashtags.service";
 
 const typeOrmModule = TypeOrmModule.forFeature([HashtagsRepository]);
 @Module({
-	imports: [typeOrmModule],
-	controllers: [HashtagsController],
-	providers: [HashtagsService],
-	exports: [HashtagsService],
+  imports: [typeOrmModule],
+  controllers: [HashtagsController],
+  providers: [HashtagsService],
+  exports: [HashtagsService],
 })
 export class HashtagsModule {}

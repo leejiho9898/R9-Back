@@ -1,23 +1,23 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-	IsArray,
-	IsDateString,
-	IsEnum,
-	IsMilitaryTime,
-	IsNumber,
-	IsOptional,
-	IsString,
+  IsArray,
+  IsDateString,
+  IsEnum,
+  IsMilitaryTime,
+  IsNumber,
+  IsOptional,
+  IsString,
 } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { Hashtag } from "src/hashtags/entities/hashtag.entity";
 import { User } from "src/users/entities/user.entity";
 import {
-	Column,
-	Entity,
-	JoinTable,
-	ManyToMany,
-	ManyToOne,
-	PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 
 enum PayMentsMethod {

@@ -3,11 +3,11 @@ import { IsEmail, Matches } from "class-validator";
 import { REGEXP_PASSWORD } from "src/common/constants/regexp";
 
 export class AuthDto {
-	@ApiProperty()
-	@IsEmail()
-	email: string;
+  @ApiProperty()
+  @IsEmail()
+  email: string;
 
-	@ApiProperty()
-	@Matches(REGEXP_PASSWORD)
-	password: string;
+  @ApiProperty()
+  @Matches(REGEXP_PASSWORD)
+  password: string;
 }
