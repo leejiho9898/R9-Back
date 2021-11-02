@@ -7,8 +7,8 @@ import { BoardsRepository } from "./boards.repository";
 const typeOrmModule = TypeOrmModule.forFeature([BoardsRepository]);
 
 @Module({
-	imports: [typeOrmModule],
-	providers: [BoardsService],
-	controllers: [BoardsController],
+  imports: [typeOrmModule],
+  providers: [BoardsService],
+  controllers: [BoardsController],
 })
 export class BoardsModule {}

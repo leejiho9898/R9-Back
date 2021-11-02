@@ -6,21 +6,21 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Board extends Base {
-	@PrimaryGeneratedColumn()
-	@ApiProperty()
-	@IsNumber()
-	id: number;
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  @IsNumber()
+  id: number;
 
-	@ManyToOne(() => User, (user) => user.board, { eager: false })
-	writer: User;
+  @ManyToOne(() => User, (user) => user.board, { eager: false })
+  writer: User;
 
-	@Column()
-	@ApiProperty()
-	@IsString()
-	content: string;
+  @Column()
+  @ApiProperty()
+  @IsString()
+  content: string;
 
-	@Column()
-	@ApiProperty()
-	@IsString()
-	title: string;
+  @Column()
+  @ApiProperty()
+  @IsString()
+  title: string;
 }

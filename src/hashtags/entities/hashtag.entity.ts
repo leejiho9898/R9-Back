@@ -6,23 +6,23 @@ import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Hashtag extends Base {
-	@PrimaryGeneratedColumn()
-	@ApiProperty()
-	@IsNumber()
-	id: number;
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  @IsNumber()
+  id: number;
 
-	@Column()
-	@ApiProperty()
-	@IsString()
-	category: string;
+  @Column()
+  @ApiProperty()
+  @IsString()
+  category: string;
 
-	@Column()
-	@ApiProperty()
-	@IsString()
-	name: string;
+  @Column()
+  @ApiProperty()
+  @IsString()
+  name: string;
 
-	@ManyToMany(() => Job, (job) => job.hashtags)
-	@ApiProperty()
-	@IsNumber()
-	job: Job;
+  @ManyToMany(() => Job, (job) => job.hashtags)
+  @ApiProperty()
+  @IsNumber()
+  job: Job;
 }
