@@ -20,6 +20,7 @@ import { JobsService } from "./jobs.service";
 export class JobsController {
 	constructor(private jobsService: JobsService) {}
 
+	/** 공고 생성 */
 	@Post()
 	@ApiOperation({
 		summary: "공고 생성API",
@@ -30,44 +31,59 @@ export class JobsController {
 		return this.jobsService.createJob(createJobDto, writer);
 	}
 
-	@Get()
+	/** 모든 공고 불러오기 */
+	@Get("")
 	@ApiOperation({
 		summary: "모든 공고 불러오기API",
 		description: "모든 공고를 불러온다",
 	})
 	findAllJobs() {
-		return this.jobsService.findAllJobs();
+		return this.jobsService.findJobs();
 	}
 
+	/** 특정  hashtag를 가진 공고 불러오기 */
+	@Get("hashtag/:hashtagId")
+	@ApiOperation({
+		summary: "특정 해시태그를 가진 공고 불러오기API",
+		description: "특정 해시태그를 가진 공고들을 불러온다.",
+	})
+	findJobsByHashtag(@Param("hashtagId") hashtagId: number) {
+		return this.jobsService.findJobsByHashtag(hashtagId);
+	}
+
+	/** 내가올린 공고 불러오기 */
 	@Get("me")
 	@ApiOperation({
 		summary: "자신이 쓴 공고 불러오기API",
 		description: "자신이 쓴 공고들을 불러온다",
 	})
+	@Auth(["ANY"])
 	findMyJobs(@CurrentUser() writer: User) {
 		return this.jobsService.findMyJobs(writer);
 	}
 
+	/** 특정 공고 불러오기 */
 	@Get(":id")
 	@ApiOperation({
 		summary: "특정 공고 불러오기API",
 		description: "특정 id값을 가진 공고를 불러온다.",
 	})
-	findJobById(@Param("id") id: string) {
+	findJobById(@Param("id") id: number) {
 		return this.jobsService.findJobById(id);
 	}
 
+	/** 공고 삭제 */
 	@Delete(":id")
 	@ApiOperation({
 		summary: "공고 삭제API",
 		description: "특정 id값을 가진 공고를 불러온다.",
 	})
-	deleteJob(@Param("id") id: string, @CurrentUser() writer: User) {
+	deleteJob(@Param("id") id: number, @CurrentUser() writer: User) {
 		return this.jobsService.deleteJob(id, writer);
 	}
 
 	@Patch(":id")
-	updateJob(@Body() updateJobDto: UpdateJobDto, @Param("id") id: string) {
+	updateJob(@Body() updateJobDto: UpdateJobDto, @Param("id") id: number) {
 		return this.jobsService.updateJob(updateJobDto, id);
 	}
 }
