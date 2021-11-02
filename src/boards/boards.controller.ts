@@ -12,6 +12,7 @@ import {
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiTags,
 } from "@nestjs/swagger";
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
@@ -20,7 +21,8 @@ import { BoardsService } from "./boards.service";
 import { CreateBoardDto } from "./dto/create-board.dto";
 import { UpdateBoardDto } from "./dto/update-board.dto";
 
-@Controller("board")
+@Controller("boards")
+@ApiTags("Boards")
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
