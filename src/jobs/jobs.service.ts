@@ -20,7 +20,7 @@ export class JobsService {
 	}
 
 	// 모든 공고 불러오기
-	async findAllJobs() {
+	async findJobs() {
 		return this.jobsRepository.find();
 	}
 
@@ -61,20 +61,16 @@ export class JobsService {
 
 	// 공고 업데이트
 	async updateJob(@Body() updateJobDto: UpdateJobDto, id: number) {
-		const { title, detail, deadline, adress, personnel, age } = updateJobDto;
-		const job = await this.jobsRepository.update(
-			{ id },
-			{
-				title,
-				detail,
-				deadline,
-				adress,
-				personnel,
-				age,
-			},
-		);
-		return job;
+		const found = await this.jobsRepository.findOne({ id });
+		if (!found) {
+			throw new NotFoundException(`해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`,);
+		}
+		return this.jobsRepository.save(
+			this.jobsRepository.create({ id, ...updateJobDto }),
+		)
 	}
+}
+
 	// const {
 	// 	title,
 	// 	detail,
@@ -98,7 +94,6 @@ export class JobsService {
 	// job.payment = payment;
 	// job.hashtags = hashtags;
 	// await this.jobsRepository.save(job);
-	// return this.jobsRepository.save(
-	// 	this.jobsRepository.create({ id, ...updateJobDto }),
+
 	// );
-}
+

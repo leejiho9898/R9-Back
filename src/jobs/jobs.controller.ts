@@ -38,7 +38,7 @@ export class JobsController {
 		description: "모든 공고를 불러온다",
 	})
 	findAllJobs() {
-		return this.jobsService.findAllJobs();
+		return this.jobsService.findJobs();
 	}
 
 	/** 특정  hashtag를 가진 공고 불러오기 */
