@@ -1,4 +1,4 @@
-import { Body, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
 import { Repository } from "typeorm";
@@ -60,40 +60,42 @@ export class JobsService {
 	}
 
 	// 공고 업데이트
-	async updateJob(@Body() updateJobDto: UpdateJobDto, id: number) {
+	async updateJob(updateJobDto: UpdateJobDto, id: number) {
 		const found = await this.jobsRepository.findOne({ id });
+		console.log(updateJobDto);
 		if (!found) {
-			throw new NotFoundException(`해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`,);
+			throw new NotFoundException(
+				`해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`,
+			);
 		}
-		return this.jobsRepository.save(
-			this.jobsRepository.create({ id, ...updateJobDto }),
-		)
+		const updatedJob = this.jobsRepository.create({ id, ...updateJobDto });
+		console.log(updatedJob);
+		await this.jobsRepository.save(updatedJob);
 	}
 }
 
-	// const {
-	// 	title,
-	// 	detail,
-	// 	deadline,
-	// 	adress,
-	// 	personnel,
-	// 	age,
-	// 	wage,
-	// 	status,
-	// 	payment,
-	// 	hashtags,
-	// } = updateJobDto;
-	// job.title = title;
-	// job.detail = detail;
-	// job.deadline = deadline;
-	// job.adress = adress;
-	// job.personnel = personnel;
-	// job.age = age;
-	// job.wage = wage;
-	// job.status = status;
-	// job.payment = payment;
-	// job.hashtags = hashtags;
-	// await this.jobsRepository.save(job);
+// const {
+// 	title,
+// 	detail,
+// 	deadline,
+// 	adress,
+// 	personnel,
+// 	age,
+// 	wage,
+// 	status,
+// 	payment,
+// 	hashtags,
+// } = updateJobDto;
+// job.title = title;
+// job.detail = detail;
+// job.deadline = deadline;
+// job.adress = adress;
+// job.personnel = personnel;
+// job.age = age;
+// job.wage = wage;
+// job.status = status;
+// job.payment = payment;
+// job.hashtags = hashtags;
+// await this.jobsRepository.save(job);
 
-	// );
-
+// );

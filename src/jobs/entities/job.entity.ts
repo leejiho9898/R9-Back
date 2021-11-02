@@ -1,7 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
+	IsArray,
 	IsDateString,
 	IsEnum,
+	IsMilitaryTime,
 	IsNumber,
 	IsOptional,
 	IsString,
@@ -91,21 +93,21 @@ export class Job extends Base {
 	payment: PayMentsMethod;
 
 	/** 근무요일 */
-	@Column()
+	@Column("text", { array: true })
 	@ApiProperty()
-	@IsString()
+	@IsArray()
 	workingDay: string[];
 
 	/** 근무 시작 시간 */
 	@Column("time")
 	@ApiProperty()
-	@IsDateString()
+	@IsMilitaryTime()
 	startTime: Date;
 
 	/** 근무 종료 시간 */
 	@Column("time")
 	@ApiProperty()
-	@IsDateString()
+	@IsMilitaryTime()
 	endTime: Date;
 
 	/** 임금 */
