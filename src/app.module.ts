@@ -11,9 +11,11 @@ import { User } from "./users/entities/user.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { JobsModule } from "./jobs/jobs.module";
-import { HashtagModule } from "./hashtag/hashtag.module";
+import { HashtagsModule } from "./hashtags/hashtags.module";
 import { Job } from "./jobs/entities/job.entity";
-import { Hashtag } from "./hashtag/entities/hashtag.entity";
+import { Hashtag } from "./hashtags/entities/hashtag.entity";
+import { BoardsModule } from "./boards/boards.module";
+import { Board } from "./boards/entities/board.entity";
 
 const validationPipe: Provider = {
 	provide: "APP_PIPE",
@@ -50,7 +52,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
 		type: "postgres",
 		url: configService.get<string>("DATABASE_URL"),
 		logging: configService.get<string>("NODE_ENV") !== "production",
-		entities: [User, Job, Hashtag],
+		entities: [User, Job, Hashtag, Board],
 		synchronize: configService.get<string>("NODE_ENV") !== "production",
 	}),
 	inject: [ConfigService],
@@ -63,7 +65,8 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
 		UsersModule,
 		AuthModule,
 		JobsModule,
-		HashtagModule,
+		HashtagsModule,
+		BoardsModule,
 	],
 	providers: [validationPipe, classSerializerInterceptor],
 })

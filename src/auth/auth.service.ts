@@ -21,9 +21,11 @@ export class AuthService {
 	}
 
 	async generateTokens(user: User) {
+		// TODO: refresh token 기능 (httpOnly cookie)
+
 		const accessToken = await this.jwtService.signAsync(
 			{
-				/* add info */
+				/* add etc info */
 			},
 			{
 				audience: user.id,

@@ -1,16 +1,13 @@
-import { Response } from "express";
-import { Controller, Post, Res, UseGuards } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { Controller, Post, UseGuards } from "@nestjs/common";
 import {
 	ApiBadRequestResponse,
 	ApiBody,
+	ApiCreatedResponse,
 	ApiForbiddenResponse,
-	ApiOkResponse,
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
-import { COOKIE_ACCESS_TOKEN } from "src/common/constants/cookies";
 import { LocalAuthGuard } from "src/common/guards/local-auth.guard";
 import { User } from "src/users/entities/user.entity";
 import { AuthService } from "./auth.service";
@@ -19,10 +16,7 @@ import { AuthDto } from "./dto/auth.dto";
 @Controller("auth")
 @ApiTags("Auth")
 export class AuthController {
-	constructor(
-		private readonly configService: ConfigService,
-		private readonly authService: AuthService,
-	) {}
+	constructor(private readonly authService: AuthService) {}
 
 	@Post()
 	@UseGuards(LocalAuthGuard)
@@ -31,17 +25,10 @@ export class AuthController {
 		description: "인증 후 토큰을 발급한다.",
 	})
 	@ApiBody({ type: AuthDto })
-	@ApiOkResponse({ description: "성공적으로 토큰이 발급됨" })
+	@ApiCreatedResponse({ description: "성공적으로 토큰이 발급됨" })
 	@ApiForbiddenResponse({ description: "인증에 실패하였음" })
 	@ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-	async generateUserTokens(
-		@CurrentUser() user: User,
-		@Res({ passthrough: true }) response: Response,
-	) {
-		const accessToken = await this.authService.generateTokens(user);
-		response.cookie(COOKIE_ACCESS_TOKEN, accessToken, {
-			httpOnly: true,
-			secure: this.configService.get<string>("NODE_ENV") === "production",
-		});
+	async generateUserTokens(@CurrentUser() user: User) {
+		return await this.authService.generateTokens(user);
 	}
 }
