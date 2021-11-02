@@ -9,7 +9,7 @@ import {
 	IsString,
 } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
-import { Hashtag } from "src/hashtag/entities/hashtag.entity";
+import { Hashtag } from "src/hashtags/entities/hashtag.entity";
 import { User } from "src/users/entities/user.entity";
 import {
 	Column,
@@ -19,8 +19,22 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { PayMentsMethod } from "../enum/job- payment.enum";
-import { JobStatus } from "../enum/job-status.enum";
+
+enum PayMentsMethod {
+	/* 시급지불 */
+	PERHOUR = "PERHOUR",
+	/* 일당지불 */
+	PERDAY = "PERDAY",
+	/* 월급 지불 */
+	PERMONTH = "PERMONTH",
+}
+
+export enum JobStatus {
+	// 모집중
+	ACTIVATE = "ACTIVATE",
+	/* 모집 완료 */
+	INAVCTIVE = "INAVCTIVE",
+}
 
 @Entity()
 export class Job extends Base {
@@ -94,19 +108,19 @@ export class Job extends Base {
 	payment: PayMentsMethod;
 
 	/** 근무요일 */
-	@Column("text", { array: true })
+	@Column({ type: "varchar", array: true })
 	@ApiProperty()
 	@IsArray()
 	workingDay: string[];
 
 	/** 근무 시작 시간 */
-	@Column("time")
+	@Column({ type: "time" })
 	@ApiProperty()
 	@IsMilitaryTime()
 	startTime: Date;
 
 	/** 근무 종료 시간 */
-	@Column("time")
+	@Column({ type: "time" })
 	@ApiProperty()
 	@IsMilitaryTime()
 	endTime: Date;
