@@ -70,7 +70,7 @@ export class User extends Base {
   @OneToMany(() => Job, (job) => job.writer)
   jobs: Job[];
 
-  @OneToMany(() => Board, (board) => board.writer, { eager: true })
+  @OneToMany(() => Board, (board) => board.writer)
   board: Board[];
 
   @BeforeInsert()
