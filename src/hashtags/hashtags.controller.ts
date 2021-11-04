@@ -20,7 +20,7 @@ import { UpdateHashtagDto } from "./dto/update-hashtag.dto";
 import { HashtagsService } from "./hashtags.service";
 
 @Controller("hashtag")
-@ApiTags("Hashtag")
+@ApiTags("Hashtags")
 export class HashtagsController {
   constructor(private hashtagsService: HashtagsService) {}
 
