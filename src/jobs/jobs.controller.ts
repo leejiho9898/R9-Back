@@ -32,7 +32,7 @@ export class JobsController {
   }
 
   /** 모든 공고 불러오기 */
-  @Get("")
+  @Get()
   @ApiOperation({
     summary: "모든 공고 불러오기API",
     description: "모든 공고를 불러온다",
