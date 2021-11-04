@@ -48,8 +48,11 @@ export class UsersController {
 
   @Get("me")
   @Auth(["ANY"])
-  @ApiOperation({ summary: "유저 검색", description: "유저를 검색한다." })
-  @ApiOkResponse({ description: "성공적으로 검색이 완료됨" })
+  @ApiOperation({
+    summary: "현재 유저 정보",
+    description: "로그인되어있는 유저의 정보를 반환",
+  })
+  @ApiOkResponse({ description: "성공적으로 처리가 완료됨" })
   @ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   findMeUser(@CurrentUser() user: User) {
