@@ -38,6 +38,8 @@ export class AuthController {
       await this.authService.generateAccessToken(user, { withCookie: true }),
       await this.authService.generateRefreshToken(user, { withCookie: true }),
     ]);
+
+    return user;
   }
 
   @Post("/refresh")
@@ -57,5 +59,7 @@ export class AuthController {
       await this.authService.generateAccessToken(user, { withCookie: true }),
       await this.authService.generateRefreshToken(user, { withCookie: true }),
     ]);
+
+    return user;
   }
 }

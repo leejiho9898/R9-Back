@@ -17,9 +17,11 @@ import {
   ApiTags,
 } from "@nestjs/swagger";
 import { Auth } from "src/auth/decorators/auth.decorator";
+import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { User } from "./entities/user.entity";
 
 @Controller("users")
 @ApiTags("Uesrs")
@@ -42,6 +44,19 @@ export class UsersController {
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   findUsers() {
     return this.usersService.findUsers();
+  }
+
+  @Get("me")
+  @Auth(["ANY"])
+  @ApiOperation({
+    summary: "현재 유저 정보",
+    description: "로그인되어있는 유저의 정보를 반환",
+  })
+  @ApiOkResponse({ description: "성공적으로 처리가 완료됨" })
+  @ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  findMeUser(@CurrentUser() user: User) {
+    return user;
   }
 
   @Get(":id")
