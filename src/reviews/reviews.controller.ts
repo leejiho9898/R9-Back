@@ -17,26 +17,24 @@ import {
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
-import { BoardsService } from "./boards.service";
-import { CreateBoardDto } from "./dto/create-board.dto";
-import { UpdateBoardDto } from "./dto/update-board.dto";
+import { CreateReviewDto } from "./dto/create-review.dto";
+import { UpdateReviewDto } from "./dto/update-review.dto";
+import { ReviewsService } from "./reviews.service";
 
-@Controller("boards")
-@ApiTags("Boards")
-export class BoardsController {
-  constructor(private boardsService: BoardsService) {}
+@Controller("reviews")
+@ApiTags("Reviews")
+export class ReviewsController {
+  constructor(private reviewsService: ReviewsService) {}
 
   @Get()
   @ApiOperation({
-    summary: "게시판 검색 API",
-    description: "Id 검색, 모든 게시물 검색한다.",
+    summary: "리뷰 검색 API",
+    description: "모든 리뷰 검색한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 게시물을 가져옴" })
+  @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findBoards(@Query("id") id: number) {
-    const query = { id };
-
-    return this.boardsService.findBoards(query);
+  findReview() {
+    return this.reviewsService.findAllReviews();
   }
 
   @Post()
@@ -48,10 +46,23 @@ export class BoardsController {
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   createBoard(
-    @Body() createBoardDto: CreateBoardDto,
+    @Body() createReviewDto: CreateReviewDto,
     @CurrentUser() writer: User
   ) {
-    return this.boardsService.createBoard(createBoardDto, writer);
+    return this.reviewsService.createReview(createReviewDto, writer);
+  }
+
+  @Get("/search")
+  @ApiOperation({
+    summary: "리뷰 검색 API",
+    description: "Id 검색 검색한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  findReviewById(@Query("id") id: number) {
+    const query = { id };
+
+    return this.reviewsService.findReviews(query);
   }
 
   @Get("/me")
@@ -63,7 +74,7 @@ export class BoardsController {
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   findMyBoards(@CurrentUser() writer: User) {
-    return this.boardsService.findMyBoards(writer);
+    return this.reviewsService.findMyReviews(writer);
   }
 
   @Patch(":id")
@@ -76,10 +87,10 @@ export class BoardsController {
   @Auth(["ANY"])
   updateBoard(
     @Param("id") id: number,
-    @Body() updateBoardDto: UpdateBoardDto,
+    @Body() updateReviewDto: UpdateReviewDto,
     @CurrentUser() writer: User
   ) {
-    return this.boardsService.updateBoard(id, updateBoardDto, writer);
+    return this.reviewsService.updateReview(id, updateReviewDto, writer);
   }
 
   @Delete(":id")
@@ -91,6 +102,6 @@ export class BoardsController {
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   deleteBoard(@Param("id") id: number, @CurrentUser() writer: User) {
-    return this.boardsService.deleteBoard(id, writer);
+    return this.reviewsService.deleteReview(id, writer);
   }
 }

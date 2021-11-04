@@ -14,13 +14,18 @@ export class Board extends Base {
   @ManyToOne(() => User, (user) => user.board, { eager: false })
   writer: User;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   @IsString()
-  content: string;
+  category: string;
 
   @Column()
   @ApiProperty()
   @IsString()
   title: string;
+
+  @Column({ type: "text" })
+  @ApiProperty()
+  @IsString()
+  content: string;
 }

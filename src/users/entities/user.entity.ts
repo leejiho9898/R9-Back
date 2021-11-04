@@ -21,6 +21,7 @@ import { Base } from "src/common/entities/base.entitiy";
 import { REGEXP_PASSWORD } from "src/common/constants/regexp";
 import { Job } from "src/jobs/entities/job.entity";
 import { Board } from "src/boards/entities/board.entity";
+import { Review } from "src/reviews/entities/review.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
@@ -72,6 +73,9 @@ export class User extends Base {
 
   @OneToMany(() => Board, (board) => board.writer, { eager: true })
   board: Board[];
+
+  @OneToMany(() => Review, (review) => review.writer, { eager: true })
+  reviews: Review[];
 
   @BeforeInsert()
   @BeforeUpdate()
