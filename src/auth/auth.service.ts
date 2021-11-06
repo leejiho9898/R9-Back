@@ -92,4 +92,22 @@ export class AuthService {
       ...options,
     });
   }
+
+  clearCookie(name: string, options?: cookie.CookieSerializeOptions) {
+    return cookie.serialize(name, "", {
+      domain:
+        this.configService.get<string>("NODE_ENV") === "production"
+          ? this.configService.get<string>("DOMAIN")
+          : undefined,
+      secure: this.configService.get<string>("NODE_ENV") === "production",
+      httpOnly: true,
+      path: "/",
+      maxAge: 0,
+      ...options,
+    });
+  }
+
+  signOut(user: User) {
+    return this.usersService.updateUser(user.id, { token: null });
+  }
 }
