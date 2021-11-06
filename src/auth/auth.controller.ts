@@ -70,11 +70,11 @@ export class AuthController {
   @Post("/signout")
   @UseGuards(RefreshJwtAuthGuard)
   @ApiOperation({
-    summary: "유저 토큰 갱신",
-    description: "토큰 검증 후 토큰을 갱신한다.",
+    summary: "로그아웃",
+    description: "사용자 로그아웃",
   })
-  @ApiCreatedResponse({ description: "성공적으로 토큰이 갱신됨" })
-  @ApiForbiddenResponse({ description: "토큰 검증에 실패하였음" })
+  @ApiCreatedResponse({ description: "성공적으로 로그아웃됨" })
+  @ApiForbiddenResponse({ description: "로그아웃에 실패하였음" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   async signOut(
     @CurrentUser() user: User,
