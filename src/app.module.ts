@@ -16,6 +16,7 @@ import { Job } from "./jobs/entities/job.entity";
 import { Hashtag } from "./hashtags/entities/hashtag.entity";
 import { BoardsModule } from "./boards/boards.module";
 import { Board } from "./boards/entities/board.entity";
+import { Address } from "./users/entities/address.entity";
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",
@@ -52,7 +53,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     type: "postgres",
     url: configService.get<string>("DATABASE_URL"),
     logging: configService.get<string>("NODE_ENV") !== "production",
-    entities: [User, Job, Hashtag, Board],
+    entities: [User, Address, Job, Hashtag, Board],
     synchronize: configService.get<string>("NODE_ENV") !== "production",
   }),
   inject: [ConfigService],
