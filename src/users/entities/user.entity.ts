@@ -71,7 +71,8 @@ export class User extends Base {
   @Column({ name: "profile_name", nullable: true })
   @ApiProperty({ type: String, description: "사용자 프로필 이미지" })
   @IsUrl()
-  profileImage: string;
+  @IsOptional()
+  profileImage?: string;
 
   @OneToOne(() => Address, (address) => address.user, {
     eager: true,
@@ -100,8 +101,9 @@ export class User extends Base {
   @Column({ nullable: true })
   @ApiProperty({ type: String, description: "사용자 갱신 토큰" })
   @IsString()
+  @IsOptional()
   @Exclude({ toPlainOnly: true })
-  token: string;
+  token?: string;
 
   @BeforeInsert()
   @BeforeUpdate()
