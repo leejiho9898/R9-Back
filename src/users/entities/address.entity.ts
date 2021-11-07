@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsPostalCode, IsString } from "class-validator";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 
@@ -18,7 +18,7 @@ export class Address {
 
   @Column({ name: "postal_code" })
   @ApiProperty({ type: String, description: "우편번호" })
-  @IsNumber()
+  @IsPostalCode()
   postalCode: string;
 
   @Column()
