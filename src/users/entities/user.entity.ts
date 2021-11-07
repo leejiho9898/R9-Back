@@ -13,6 +13,7 @@ import {
   IsEnum,
   IsOptional,
   IsString,
+  IsUrl,
   IsUUID,
   Matches,
   ValidateNested,
@@ -61,6 +62,11 @@ export class User extends Base {
   @Matches(REGEXP_PASSWORD)
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @Column({ name: "profile_name", nullable: true })
+  @ApiProperty({ type: String, description: "사용자 프로필 이미지" })
+  @IsUrl()
+  profileImage: string;
 
   @Column({ type: "enum", enum: Gender })
   @ApiProperty({ enum: Gender, description: "사용자 성별" })
