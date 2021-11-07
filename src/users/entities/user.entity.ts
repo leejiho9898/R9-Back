@@ -68,7 +68,7 @@ export class User extends Base {
   @IsEnum(Gender)
   gender: Gender;
 
-  @Column({ name: "profile_name", nullable: true })
+  @Column({ name: "profile_image", nullable: true })
   @ApiProperty({ type: String, description: "사용자 프로필 이미지" })
   @IsUrl()
   @IsOptional()
