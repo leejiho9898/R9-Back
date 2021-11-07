@@ -14,7 +14,6 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  Length,
   Matches,
   ValidateNested,
 } from "class-validator";
@@ -50,7 +49,6 @@ export class User extends Base {
   @Column()
   @ApiProperty({ type: String, description: "사용자 이름" })
   @IsString()
-  @Length(1, 10)
   name: string;
 
   @Column({ unique: true })
