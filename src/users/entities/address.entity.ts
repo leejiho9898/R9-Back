@@ -11,11 +11,6 @@ export class Address {
   @IsOptional()
   id: number;
 
-  @Column()
-  @ApiProperty({ type: String, description: "국가" })
-  @IsString()
-  country: string;
-
   @Column({ name: "postal_code" })
   @ApiProperty({ type: String, description: "우편번호" })
   @IsString()
@@ -32,19 +27,10 @@ export class Address {
   city: string;
 
   @Column()
-  @ApiProperty({ type: String, description: "도로명" })
+  @ApiProperty({ type: String, description: "도로명 주소" })
   @IsString()
-  street: string;
-
-  @Column()
-  @ApiProperty({ type: Number, description: "건물 번호" })
-  @IsNumber()
-  buildCode: number;
+  roadAddress: string;
 
   @OneToOne(() => User, (user: User) => user.address)
   user: User;
-
-  getFullAddress() {
-    return `${this.country} ${this.state} ${this.city} ${this.street}`;
-  }
 }

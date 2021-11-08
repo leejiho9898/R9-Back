@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import {
+  IsDateString,
   IsEmail,
   IsEnum,
   IsOptional,
@@ -67,6 +68,11 @@ export class User extends Base {
   @ApiProperty({ enum: Gender, description: "사용자 성별" })
   @IsEnum(Gender)
   gender: Gender;
+
+  @Column({ type: "date", name: "date_of_birth" })
+  @ApiProperty({ type: String, description: "사용자 생년월일" })
+  @IsDateString()
+  dateOfBirth: Date;
 
   @Column({ name: "profile_image", nullable: true })
   @ApiProperty({ type: String, description: "사용자 프로필 이미지" })
