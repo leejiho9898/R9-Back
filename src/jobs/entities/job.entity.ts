@@ -21,121 +21,121 @@ import {
 } from "typeorm";
 
 enum PayMentsMethod {
-	/* 시급지불 */
-	PERHOUR = "PERHOUR",
-	/* 일당지불 */
-	PERDAY = "PERDAY",
-	/* 월급 지불 */
-	PERMONTH = "PERMONTH",
+  /* 시급지불 */
+  PERHOUR = "PERHOUR",
+  /* 일당지불 */
+  PERDAY = "PERDAY",
+  /* 월급 지불 */
+  PERMONTH = "PERMONTH",
 }
 
 export enum JobStatus {
-	// 모집중
-	ACTIVATE = "ACTIVATE",
-	/* 모집 완료 */
-	INAVCTIVE = "INAVCTIVE",
+  // 모집중
+  ACTIVATE = "ACTIVATE",
+  /* 모집 완료 */
+  INAVCTIVE = "INAVCTIVE",
 }
 
 @Entity()
 export class Job extends Base {
-	@PrimaryGeneratedColumn()
-	@ApiProperty()
-	@IsNumber()
-	id: number;
-	/** 작성자 ID */
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  @IsNumber()
+  id: number;
+  /** 작성자 ID */
 
-	@ManyToOne(() => User, (writer) => writer.jobs, { eager: true })
-	@ApiProperty()
-	@IsString()
-	writer: User;
+  @ManyToOne(() => User, (writer) => writer.jobs, { eager: true })
+  @ApiProperty()
+  @IsString()
+  writer: User;
 
-	/** 해쉬태그 */
-	@ManyToMany(() => Hashtag, (hashtag) => hashtag.job, {
-		eager: true,
-	})
-	@ApiProperty()
-	@JoinTable()
-	@IsOptional({ each: true })
-	hashtags: Hashtag[];
+  /** 해쉬태그 */
+  @ManyToMany(() => Hashtag, (hashtag) => hashtag.job, {
+    eager: true,
+  })
+  @ApiProperty()
+  @JoinTable()
+  @IsOptional({ each: true })
+  hashtags: Hashtag[];
 
-	/** 공고 제목 */
-	@Column()
-	@ApiProperty()
-	@IsString()
-	title: string;
+  /** 공고 제목 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  title: string;
 
-	/** 마감일 */
-	@Column()
-	@ApiProperty()
-	@IsDateString()
-	deadline: Date;
+  /** 마감일 */
+  @Column()
+  @ApiProperty()
+  @IsDateString()
+  deadline: Date;
 
-	/** 근무 내용 */
-	@Column()
-	@ApiProperty()
-	@IsString()
-	detail: string;
+  /** 근무 내용 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  detail: string;
 
-	/** 인원 */
-	@Column()
-	@ApiProperty()
-	@IsNumber()
-	personnel: number;
+  /** 인원 */
+  @Column()
+  @ApiProperty()
+  @IsNumber()
+  personnel: number;
 
-	/** 희망연령 */
-	@Column()
-	@ApiProperty()
-	@IsNumber()
-	age: number;
+  /** 희망연령 */
+  @Column()
+  @ApiProperty()
+  @IsNumber()
+  age: number;
 
-	/** 근무형태 */
-	@Column()
-	@ApiProperty()
-	@IsString()
-	workType: string;
+  /** 근무형태 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  workType: string;
 
-	/** 주소 */
-	@Column()
-	@ApiProperty()
-	@IsString()
-	adress: string;
+  /** 주소 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  adress: string;
 
-	/** 임금 지불 방식 */
-	@Column({ enum: PayMentsMethod, default: PayMentsMethod.PERHOUR })
-	@ApiProperty()
-	@IsOptional()
-	@IsEnum(PayMentsMethod)
-	payment: PayMentsMethod;
+  /** 임금 지불 방식 */
+  @Column({ enum: PayMentsMethod, default: PayMentsMethod.PERHOUR })
+  @ApiProperty()
+  @IsOptional()
+  @IsEnum(PayMentsMethod)
+  payment: PayMentsMethod;
 
-	/** 근무요일 */
-	@Column({ type: "varchar", array: true })
-	@ApiProperty()
-	@IsArray()
-	workingDay: string[];
+  /** 근무요일 */
+  @Column({ type: "varchar", array: true })
+  @ApiProperty()
+  @IsArray()
+  workingDay: string[];
 
-	/** 근무 시작 시간 */
-	@Column({ type: "time" })
-	@ApiProperty()
-	@IsMilitaryTime()
-	startTime: Date;
+  /** 근무 시작 시간 */
+  @Column({ type: "time" })
+  @ApiProperty()
+  @IsMilitaryTime()
+  startTime: Date;
 
-	/** 근무 종료 시간 */
-	@Column({ type: "time" })
-	@ApiProperty()
-	@IsMilitaryTime()
-	endTime: Date;
+  /** 근무 종료 시간 */
+  @Column({ type: "time" })
+  @ApiProperty()
+  @IsMilitaryTime()
+  endTime: Date;
 
-	/** 임금 */
-	@Column({ default: 8750 })
-	@ApiProperty()
-	@IsOptional()
-	@IsNumber()
-	wage: number;
+  /** 임금 */
+  @Column({ default: 8750 })
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  wage: number;
 
-	/** 공고 상태 */
-	@Column({ enum: JobStatus, default: JobStatus.ACTIVATE })
-	@ApiProperty()
-	@IsOptional()
-	@IsEnum(JobStatus)
-	status: JobStatus;
+  /** 공고 상태 */
+  @Column({ enum: JobStatus, default: JobStatus.ACTIVATE })
+  @ApiProperty()
+  @IsOptional()
+  @IsEnum(JobStatus)
+  status: JobStatus;
 }

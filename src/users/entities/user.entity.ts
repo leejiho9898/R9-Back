@@ -27,6 +27,7 @@ import { REGEXP_PASSWORD } from "src/common/constants/regexp";
 import { Job } from "src/jobs/entities/job.entity";
 import { Board } from "src/boards/entities/board.entity";
 import { Address } from "./address.entity";
+import { Review } from "src/reviews/entities/review.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
@@ -99,6 +100,10 @@ export class User extends Base {
   @ApiProperty({ type: [Board], description: "사용자가 작성한 게시글" })
   board: Board[];
 
+  @OneToMany(() => Review, (review) => review.writer)
+  @ApiProperty({ type: [Review], description: "사용자가 작성한 리뷰" })
+  reviews: Review[];
+  
   @Column({ type: "enum", enum: Role })
   @ApiProperty({ enum: Role, description: "사용자 권한" })
   @IsEnum(Role)

@@ -15,6 +15,10 @@ export class BoardsService {
     });
   }
 
+  async findMyBoards(writer: User) {
+    return await this.boardsRepository.find({ writer });
+  }
+
   async createBoard(boardDto: CreateBoardDto, writer: User) {
     await this.boardsRepository.save(
       this.boardsRepository.create({ writer, ...boardDto })
