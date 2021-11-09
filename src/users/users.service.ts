@@ -25,7 +25,9 @@ export class UsersService {
         `Cannot sign up with email '${createUserDto.email}'`
       );
     }
-    await this.usersRepository.save(this.usersRepository.create(createUserDto));
+    return await this.usersRepository.save(
+      this.usersRepository.create(createUserDto)
+    );
   }
 
   async findUsers() {
