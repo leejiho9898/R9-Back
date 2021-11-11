@@ -6,16 +6,17 @@ import { AppModule } from "~/app.module";
 import { ACCESS_TOKEN_NAME } from "~/common/constants/auth";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: "http://localhost:3000",
-      credentials: true,
-    },
-  });
+  const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>("PORT");
+  const origin = configService.get<string>("ORIGIN");
   const swaggerPath = configService.get<string>("SWAGGER_PATH");
+
+  app.enableCors({
+    origin,
+    credentials: true,
+  });
 
   app.use(cookieParser());
 

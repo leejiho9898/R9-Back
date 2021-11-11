@@ -42,7 +42,8 @@ const configModule = ConfigModule.forRoot({
       .string()
       .valid("development", "production", "test")
       .default("development"),
-    DOMAIN: joi.string().default("localhost"),
+    DOMAIN: joi.string().default("localhost:4000"),
+    ORIGIN: joi.string().default("http://localhost:4000"),
     PORT: joi.number().default(4000),
     DATABASE_URL: joi.string().required(),
     SECRET_KEY: joi.string().required(),
