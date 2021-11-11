@@ -86,7 +86,7 @@ export class User extends Base {
     cascade: true,
     onDelete: "CASCADE",
   })
-  @JoinColumn()
+  @JoinColumn({ name: "address_id" })
   @ApiProperty({ type: Address, description: "사용자 주소" })
   @ValidateNested()
   @Type(() => Address)

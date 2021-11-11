@@ -12,9 +12,9 @@ export class Address {
   id: number;
 
   @Column({ name: "postal_code" })
-  @ApiProperty({ type: Number, description: "우편번호" })
-  @IsNumber()
-  postalCode: number;
+  @ApiProperty({ type: String, description: "우편번호" })
+  @IsString()
+  postalCode: string;
 
   @Column()
   @ApiProperty({ type: String, description: "시도명" })
