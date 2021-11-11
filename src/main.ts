@@ -2,19 +2,21 @@ import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import cookieParser from "cookie-parser";
-import { AppModule } from "./app.module";
-import { ACCESS_TOKEN_NAME } from "./common/constants/auth";
+import { AppModule } from "~/app.module";
+import { ACCESS_TOKEN_NAME } from "~/common/constants/auth";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: "http://localhost:3000",
-      credentials: true,
-    },
-  });
+  const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>("PORT");
+  const origin = configService.get<string>("ORIGIN");
+  const swaggerPath = configService.get<string>("SWAGGER_PATH");
+
+  app.enableCors({
+    origin,
+    credentials: true,
+  });
 
   app.use(cookieParser());
 
@@ -30,7 +32,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
+  SwaggerModule.setup(swaggerPath, app, document);
 
   await app.listen(port);
 }

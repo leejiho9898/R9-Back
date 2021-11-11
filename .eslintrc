@@ -21,6 +21,7 @@
     "@typescript-eslint/return-await": "off",
     "class-methods-use-this": "off",
     "import/no-cycle": "off",
+    "import/extensions": "off",
     "import/prefer-default-export": "off",
     "max-classes-per-file": "off"
   }
