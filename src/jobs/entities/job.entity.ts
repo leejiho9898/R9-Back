@@ -21,18 +21,18 @@ import {
 } from "typeorm";
 
 enum PayMentsMethod {
-  /* 시급지불 */
+  /** 시급지불 */
   PERHOUR = "PERHOUR",
-  /* 일당지불 */
+  /** 일당지불 */
   PERDAY = "PERDAY",
-  /* 월급 지불 */
+  /** 월급 지불 */
   PERMONTH = "PERMONTH",
 }
 
 export enum JobStatus {
-  // 모집중
+  /** 모집중 */
   ACTIVATE = "ACTIVATE",
-  /* 모집 완료 */
+  /** 모집 완료 */
   INAVCTIVE = "INAVCTIVE",
 }
 
@@ -42,8 +42,8 @@ export class Job extends Base {
   @ApiProperty()
   @IsNumber()
   id: number;
-  /** 작성자 ID */
 
+  /** 작성자 ID */
   @ManyToOne(() => User, (writer) => writer.jobs, { eager: true })
   @ApiProperty()
   @IsString()
