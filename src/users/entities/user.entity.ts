@@ -74,7 +74,7 @@ export class User extends Base {
   @OneToMany(() => Board, (board) => board.writer)
   board: Board[];
 
-  @OneToMany(() => Review, (review) => review.writer, { eager: true })
+  @OneToMany(() => Review, (review) => review.writer, { eager: false })
   reviews: Review[];
 
   @BeforeInsert()

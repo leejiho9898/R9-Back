@@ -82,6 +82,7 @@ export class JobsController {
     return this.jobsService.deleteJob(id, writer);
   }
 
+  /** 공고 업데이트 */
   @Patch(":id")
   updateJob(@Body() updateJobDto: UpdateJobDto, @Param("id") id: number) {
     return this.jobsService.updateJob(updateJobDto, id);

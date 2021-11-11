@@ -16,7 +16,7 @@ export class Review extends Base {
   @IsNumber()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.reviews, { eager: false })
+  @ManyToOne(() => User, (user) => user.reviews, { eager: true })
   writer: User;
 
   @Column()
