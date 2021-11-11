@@ -7,18 +7,18 @@ import {
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import joi from "joi";
-import { User } from "./users/entities/user.entity";
-import { UsersModule } from "./users/users.module";
-import { AuthModule } from "./auth/auth.module";
-import { JobsModule } from "./jobs/jobs.module";
-import { HashtagsModule } from "./hashtags/hashtags.module";
-import { Job } from "./jobs/entities/job.entity";
-import { Hashtag } from "./hashtags/entities/hashtag.entity";
-import { BoardsModule } from "./boards/boards.module";
-import { Board } from "./boards/entities/board.entity";
-import { Address } from "./users/entities/address.entity";
-import { ReviewsModule } from "./reviews/reviews.module";
-import { Review } from "./reviews/entities/review.entity";
+import { UsersModule } from "~/users/users.module";
+import { AuthModule } from "~/auth/auth.module";
+import { JobsModule } from "~/jobs/jobs.module";
+import { HashtagsModule } from "~/hashtags/hashtags.module";
+import { ReviewsModule } from "~/reviews/reviews.module";
+import { BoardsModule } from "~/boards/boards.module";
+import { User } from "~/users/entities/user.entity";
+import { Address } from "~/users/entities/address.entity";
+import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { Job } from "~/jobs/entities/job.entity";
+import { Review } from "~/reviews/entities/review.entity";
+import { Board } from "~/boards/entities/board.entity";
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",
@@ -46,6 +46,7 @@ const configModule = ConfigModule.forRoot({
     PORT: joi.number().default(4000),
     DATABASE_URL: joi.string().required(),
     SECRET_KEY: joi.string().required(),
+    SWAGGER_PATH: joi.string().default("docs"),
   }),
 });
 
