@@ -16,12 +16,12 @@ import {
   ApiOperation,
   ApiTags,
 } from "@nestjs/swagger";
-import { Auth } from "src/auth/decorators/auth.decorator";
-import { CurrentUser } from "src/common/decorators/current-user.decorator";
-import { UsersService } from "./users.service";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from "./entities/user.entity";
+import { Auth } from "~/auth/decorators/auth.decorator";
+import { CurrentUser } from "~/common/decorators/current-user.decorator";
+import { UsersService } from "~/users/users.service";
+import { CreateUserDto } from "~/users/dto/create-user.dto";
+import { UpdateUserDto } from "~/users/dto/update-user.dto";
+import { User } from "~/users/entities/user.entity";
 
 @Controller("users")
 @ApiTags("Uesrs")

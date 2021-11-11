@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsOptional, IsString } from "class-validator";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user.entity";
+import { User } from "~/users/entities/user.entity";
 
 @Entity()
 export class Address {
@@ -12,9 +12,9 @@ export class Address {
   id: number;
 
   @Column({ name: "postal_code" })
-  @ApiProperty({ type: String, description: "우편번호" })
-  @IsString()
-  postalCode: string;
+  @ApiProperty({ type: Number, description: "우편번호" })
+  @IsNumber()
+  postalCode: number;
 
   @Column()
   @ApiProperty({ type: String, description: "시도명" })
