@@ -53,7 +53,6 @@ export class JobsController {
     @Query("ids", new ParseArrayPipe({ items: Number, separator: "," }))
     ids: number[]
   ) {
-
     return this.jobsService.findJobsByHashtag(ids);
   }
 

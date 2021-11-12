@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { find } from "rxjs";
 import { User } from "src/users/entities/user.entity";
-import { Exclusion, In, Repository } from "typeorm";
-import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job } from "./entities/job.entity";
@@ -26,7 +24,7 @@ export class JobsService {
     return this.jobsRepository.find();
   }
 
-  //** hashtag 사용하여 필터링 */
+  //* * hashtag 사용하여 필터링 */
   async findJobsByHashtag(ids: number[]) {
     console.log(ids);
     const query = this.jobsRepository.createQueryBuilder("job");
