@@ -25,7 +25,7 @@ export class Apply extends Base {
   @IsNumber()
   job: Job[];
 
-  /** 추가 사항*/
+  /** 추가 사항 */
   @Column({ type: "text" })
   @ApiProperty()
   @IsString()
