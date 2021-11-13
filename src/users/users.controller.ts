@@ -73,6 +73,22 @@ export class UsersController {
     return this.usersService.findOneUserById(id);
   }
 
+  @Patch("me")
+  @Auth(["ANY"])
+  @ApiOperation({
+    summary: "현재 유저 정보 수정",
+    description: "로그인되어있는 유저의 정보를 수정",
+  })
+  @ApiOkResponse({ description: "성공적으로 처리가 완료됨" })
+  @ApiForbiddenResponse({ description: "인증에 실패하였거나 권한이 부족함" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  updateUserMe(
+    @CurrentUser() user: User,
+    @Body() updateUserDto: UpdateUserDto
+  ) {
+    return this.usersService.updateUserMe(user, updateUserDto);
+  }
+
   @Patch(":id")
   @Auth(["ADMIN"])
   @ApiOperation({ summary: "유저 수정", description: "유저정보를 수정한다." })

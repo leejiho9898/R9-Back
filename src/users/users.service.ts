@@ -64,6 +64,12 @@ export class UsersService {
     );
   }
 
+  async updateUserMe({ id }: User, updateUserDto: UpdateUserDto) {
+    return await this.usersRepository.save(
+      this.usersRepository.create({ id, ...updateUserDto })
+    );
+  }
+
   async deleteUser(id: string) {
     const found = await this.usersRepository.findOne({ id });
     if (!found) {
