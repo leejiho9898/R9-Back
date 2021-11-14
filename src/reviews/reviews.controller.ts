@@ -39,10 +39,10 @@ export class ReviewsController {
 
   @Post()
   @ApiOperation({
-    summary: "게시판 생성 API",
-    description: "게시물 생성한다.",
+    summary: "리뷰 생성 API",
+    description: "리뷰 생성한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 게시물을 생성완료" })
+  @ApiOkResponse({ description: "성공적으로 리뷰을 생성완료" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   createBoard(
@@ -67,22 +67,27 @@ export class ReviewsController {
 
   @Get("/me")
   @ApiOperation({
-    summary: "게시판 검색 API",
-    description: "Id 검색, 모든 게시물 검색한다.",
+    summary: "리뷰 검색 API",
+    description: "Id 검색, 모든 리뷰 검색한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 게시물을 가져옴" })
+  @ApiOkResponse({ description: "성공적으로 라뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  findMyBoards(@CurrentUser() writer: User) {
+  findMyReviews(@CurrentUser() writer: User) {
     return this.reviewsService.findMyReviews(writer);
+  }
+
+  @Get("search/:bizId")
+  findReviewByBizId(@Param("bizId") bizId: string) {
+    return this.reviewsService.findReviewsbyUserId(bizId);
   }
 
   @Patch(":id")
   @ApiOperation({
-    summary: "게시물 수정 API",
-    description: "게시물을 수정한다.",
+    summary: "리뷰 수정 API",
+    description: "리뷰를 수정한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 게시물을 수정" })
+  @ApiOkResponse({ description: "성공적으로 리뷰를 수정" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   updateBoard(
@@ -95,10 +100,10 @@ export class ReviewsController {
 
   @Delete(":id")
   @ApiOperation({
-    summary: "게시물 삭제 API",
-    description: "게시물을 삭제한다.",
+    summary: "리뷰 삭제 API",
+    description: "리뷰를 삭제한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 게시물 삭제" })
+  @ApiOkResponse({ description: "성공적으로 리뷰 삭제" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   deleteBoard(@Param("id") id: number, @CurrentUser() writer: User) {

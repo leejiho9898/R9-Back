@@ -3,8 +3,9 @@ import { Review } from "../entities/review.entity";
 
 export class CreateReviewDto extends PickType(Review, [
   "title",
+  "biz",
+  "content",
   "startDate",
   "endDate",
   "rating",
-  "content",
 ] as const) {}

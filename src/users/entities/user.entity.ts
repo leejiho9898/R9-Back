@@ -104,6 +104,12 @@ export class User extends Base {
   @Type(() => Board)
   board: Board[];
 
+  @OneToMany(() => Review, (review) => review.biz)
+  @ApiProperty({ type: [Review], description: "사용자가 작성한 리뷰" })
+  @ValidateNested({ each: true })
+  @Type(() => Review)
+  bizreview: Review[];
+
   @OneToMany(() => Review, (review) => review.writer)
   @ApiProperty({ type: [Review], description: "사용자가 작성한 리뷰" })
   @ValidateNested({ each: true })
