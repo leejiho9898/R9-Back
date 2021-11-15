@@ -28,6 +28,7 @@ import { Address } from "./address.entity";
 import { Job } from "~/jobs/entities/job.entity";
 import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
+import { Apply } from "~/applys/entities/apply.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
@@ -109,6 +110,12 @@ export class User extends Base {
   @ValidateNested({ each: true })
   @Type(() => Review)
   reviews: Review[];
+
+  @OneToMany(() => Apply, (apply) => apply.user)
+  @ApiProperty({ type: [Apply], description: "사용자가 작성한 지원서" })
+  @ValidateNested({ each: true })
+  @Type(() => Apply)
+  applys: Apply[];
 
   @Column({ type: "enum", enum: Role })
   @ApiProperty({ enum: Role, description: "사용자 권한" })
