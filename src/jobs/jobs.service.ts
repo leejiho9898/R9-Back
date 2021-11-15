@@ -24,11 +24,13 @@ export class JobsService {
     return this.jobsRepository.find();
   }
 
-  async findJobsByHashtag(hashtagId: number) {
+  //* * hashtag 사용하여 필터링 */
+  async findJobsByHashtag(ids: number[]) {
+    console.log(ids);
     const query = this.jobsRepository.createQueryBuilder("job");
-    query.leftJoin("job.hashtags", "hashtag");
-    query.where("hashtag.id=:hashtagId", { hashtagId });
-    const jobs = await query.getMany();
+    query.leftJoinAndSelect("job.hashtags", "hashtag");
+    query.where("hashtag.id IN (:...hashtagId)", { hashtagId: ids });
+    const jobs = query.getMany();
     return jobs;
   }
 

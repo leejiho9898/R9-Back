@@ -17,8 +17,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Apply } from "~/applys/entities/apply.entity";
 
 enum PayMentsMethod {
   /** 시급지불 */
@@ -28,12 +30,19 @@ enum PayMentsMethod {
   /** 월급 지불 */
   PERMONTH = "PERMONTH",
 }
-
-export enum JobStatus {
+enum JobStatus {
   /** 모집중 */
   ACTIVATE = "ACTIVATE",
   /** 모집 완료 */
   INAVCTIVE = "INAVCTIVE",
+}
+enum Gender {
+  /** 남성 */
+  MAIL = "MAIL",
+  /** 여성 */
+  FEMAIL = "FEMAIL",
+  /** 상관 없음 */
+  ANY = "ANY",
 }
 
 @Entity()
@@ -57,6 +66,10 @@ export class Job extends Base {
   @JoinTable()
   @IsOptional({ each: true })
   hashtags: Hashtag[];
+
+  @OneToMany(() => Apply, (apply) => apply.job, { cascade: true })
+  @ApiProperty({ type: [Apply], description: "해당 공고에 작성된 지원서" })
+  applys: Apply[];
 
   /** 공고 제목 */
   @Column()
@@ -138,4 +151,22 @@ export class Job extends Base {
   @IsOptional()
   @IsEnum(JobStatus)
   status: JobStatus;
+
+  /** 근무기간 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  period: string;
+
+  /** 성별 */
+  @Column({ enum: Gender, default: Gender.MAIL })
+  @ApiProperty()
+  @IsEnum(Gender)
+  gender: Gender;
+
+  /** 업직종 */
+  @Column()
+  @ApiProperty()
+  @IsString()
+  sectors: string;
 }

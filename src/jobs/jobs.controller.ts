@@ -4,8 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseArrayPipe,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/auth/decorators/auth.decorator";
@@ -42,13 +44,16 @@ export class JobsController {
   }
 
   /** 특정  hashtag를 가진 공고 불러오기 */
-  @Get("hashtag/:hashtagId")
+  @Get("hashtag")
   @ApiOperation({
     summary: "특정 해시태그를 가진 공고 불러오기API",
     description: "특정 해시태그를 가진 공고들을 불러온다.",
   })
-  findJobsByHashtag(@Param("hashtagId") hashtagId: number) {
-    return this.jobsService.findJobsByHashtag(hashtagId);
+  findJobsByHashtag(
+    @Query("ids", new ParseArrayPipe({ items: Number, separator: "," }))
+    ids: number[]
+  ) {
+    return this.jobsService.findJobsByHashtag(ids);
   }
 
   /** 내가올린 공고 불러오기 */

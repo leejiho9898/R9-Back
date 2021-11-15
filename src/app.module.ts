@@ -19,6 +19,8 @@ import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Job } from "~/jobs/entities/job.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Board } from "~/boards/entities/board.entity";
+import { ApplysModule } from "~/applys/applys.module";
+import { Apply } from "./applys/entities/apply.entity";
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",
@@ -43,7 +45,7 @@ const configModule = ConfigModule.forRoot({
       .valid("development", "production", "test")
       .default("development"),
     DOMAIN: joi.string().default("localhost:4000"),
-    ORIGIN: joi.string().default("http://localhost:4000"),
+    ORIGIN: joi.string().default("http://localhost:3000"),
     PORT: joi.number().default(4000),
     DATABASE_URL: joi.string().required(),
     SECRET_KEY: joi.string().required(),
@@ -57,7 +59,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     type: "postgres",
     url: configService.get<string>("DATABASE_URL"),
     logging: configService.get<string>("NODE_ENV") !== "production",
-    entities: [User, Address, Job, Hashtag, Board, Review],
+    entities: [User, Address, Job, Hashtag, Board, Review, Apply],
     synchronize: configService.get<string>("NODE_ENV") !== "production",
   }),
   inject: [ConfigService],
@@ -73,6 +75,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     HashtagsModule,
     BoardsModule,
     ReviewsModule,
+    ApplysModule,
   ],
   providers: [validationPipe, classSerializerInterceptor],
   controllers: [],

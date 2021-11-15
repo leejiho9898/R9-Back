@@ -30,6 +30,7 @@ import { Job } from "~/jobs/entities/job.entity";
 import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { Apply } from "~/applys/entities/apply.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
@@ -130,11 +131,18 @@ export class User extends Base {
   @Type(() => Review)
   reviews: Review[];
 
+
   @OneToMany(() => Hashtag, (hashtag) => hashtag.writer)
   @ApiProperty({ type: [Hashtag], description: "사용자가 작성한 리뷰" })
   @ValidateNested({ each: true })
   @Type(() => Hashtag)
   hashtags: Hashtag[];
+
+  @OneToMany(() => Apply, (apply) => apply.user)
+  @ApiProperty({ type: [Apply], description: "사용자가 작성한 지원서" })
+  @ValidateNested({ each: true })
+  @Type(() => Apply)
+  applys: Apply[];
 
   @Column({ type: "enum", enum: Role })
   @ApiProperty({ enum: Role, description: "사용자 권한" })
