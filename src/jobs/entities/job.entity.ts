@@ -67,7 +67,7 @@ export class Job extends Base {
   @IsOptional({ each: true })
   hashtags: Hashtag[];
 
-  @OneToMany(() => Apply, (apply) => apply.job)
+  @OneToMany(() => Apply, (apply) => apply.job, { cascade: true })
   @ApiProperty({ type: [Apply], description: "해당 공고에 작성된 지원서" })
   applys: Apply[];
 

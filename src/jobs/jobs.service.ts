@@ -31,10 +31,6 @@ export class JobsService {
     query.leftJoinAndSelect("job.hashtags", "hashtag");
     query.where("hashtag.id IN (:...hashtagId)", { hashtagId: ids });
     const jobs = query.getMany();
-    // const jobs = this.jobsRepository.find({
-    //   relations: ["hashtags"],
-    //   where: { hashtags: { id: 1 } },
-    // });
     return jobs;
   }
 

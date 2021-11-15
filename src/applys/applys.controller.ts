@@ -7,7 +7,7 @@ import { ApplysService } from "./applys.service";
 import { CreateApplyDto } from "./dto/create-apply.dto";
 
 @Controller("applys")
-@ApiTags("applys")
+@ApiTags("Applys")
 export class ApplysController {
   constructor(private applyService: ApplysService) {}
 
@@ -34,6 +34,24 @@ export class ApplysController {
     return this.applyService.findMyApplys(user);
   }
 
+  @Get("job/:id")
+  @ApiOperation({
+    summary: "공고 지원자 내역 확인API",
+    description: "특정 공고의 지원자 목록을 불러온다.",
+  })
+  findApplyByJob(@Param("id") id: number) {
+    return this.applyService.findApplysByJob(id);
+  }
+
+  @Get(":id")
+  @ApiOperation({
+    summary: "지원자 이력서 확인API",
+    description: "특정 공고의 지원자 목록을 불러온다.",
+  })
+  findApplyById(@Param("id") id: number) {
+    return this.applyService.findApplyById(id);
+  }
+  
   @Delete(":id")
   @ApiOperation({
     summary: "지원서 삭제 API",
