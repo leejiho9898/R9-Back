@@ -26,17 +26,32 @@ export class ReviewsService {
 
   async findReviewsbyUserId(bizId: string) {
     const found = await this.usersService.findOneUserById(bizId);
-
     const param = {
       biz: found,
     };
-
     return await this.reviewsRepository.find(param);
   }
 
   async createReview(createReviewDto: CreateReviewDto, writer: User) {
+    const { title, content, startDate, endDate, rating, bizId } =
+      createReviewDto;
+    const biz = await this.usersService.findOneUserById(bizId);
+    if (!biz) {
+      throw new NotFoundException(
+        `Board with id ${bizId} and user does not exist`
+      );
+    }
+
+    const createDto = {
+      title,
+      content,
+      startDate,
+      endDate,
+      rating,
+      biz,
+    };
     await this.reviewsRepository.save(
-      this.reviewsRepository.create({ writer, ...createReviewDto })
+      this.reviewsRepository.create({ writer, ...createDto })
     );
     return "성공적으로 생성되었습니다.";
   }

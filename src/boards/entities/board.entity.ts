@@ -7,7 +7,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Board extends Base {
   @PrimaryGeneratedColumn()
-  @ApiProperty()
+  @ApiProperty({ type: Number, description: "보드 ID" })
   @IsNumber()
   id: number;
 
@@ -15,17 +15,17 @@ export class Board extends Base {
   writer: User;
 
   @Column({ nullable: true })
-  @ApiProperty()
+  @ApiProperty({ type: Number, description: "카테고리" })
   @IsString()
   category: string;
 
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "제목" })
   @IsString()
   title: string;
 
   @Column({ type: "text" })
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "내용" })
   @IsString()
   content: string;
 }

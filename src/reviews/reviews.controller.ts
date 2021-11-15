@@ -45,7 +45,7 @@ export class ReviewsController {
   @ApiOkResponse({ description: "성공적으로 리뷰을 생성완료" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  createBoard(
+  createReview(
     @Body() createReviewDto: CreateReviewDto,
     @CurrentUser() writer: User
   ) {
@@ -78,6 +78,12 @@ export class ReviewsController {
   }
 
   @Get("search/:bizId")
+  @ApiOperation({
+    summary: "리뷰 검색 API",
+    description: "기업별 검색 검색한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   findReviewByBizId(@Param("bizId") bizId: string) {
     return this.reviewsService.findReviewsbyUserId(bizId);
   }
@@ -90,7 +96,7 @@ export class ReviewsController {
   @ApiOkResponse({ description: "성공적으로 리뷰를 수정" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  updateBoard(
+  updateReview(
     @Param("id") id: number,
     @Body() updateReviewDto: UpdateReviewDto,
     @CurrentUser() writer: User
@@ -106,7 +112,7 @@ export class ReviewsController {
   @ApiOkResponse({ description: "성공적으로 리뷰 삭제" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  deleteBoard(@Param("id") id: number, @CurrentUser() writer: User) {
+  deleteReview(@Param("id") id: number, @CurrentUser() writer: User) {
     return this.reviewsService.deleteReview(id, writer);
   }
 }

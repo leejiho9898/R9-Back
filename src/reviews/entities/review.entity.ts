@@ -6,47 +6,41 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Review extends Base {
-  /** 리뷰 ID */
   @PrimaryGeneratedColumn()
-  @ApiProperty()
+  @ApiProperty({ type: Number, description: "리뷰 ID" })
   @IsNumber()
   id: number;
 
-  /** 작성자 ID */
+  /** 기업 */
   @ManyToOne(() => User, (user) => user.bizreview, { eager: true })
   biz: User;
 
-  /** 작성자 ID */
+  /** 작성자 */
   @ManyToOne(() => User, (user) => user.reviews, { eager: true })
   writer: User;
 
-  /** 제목 */
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "제목" })
   @IsString()
   title: string;
 
-  /** 근무 시작했던 날짜 */
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "근무 시작했던 날짜" })
   @IsDateString()
   startDate: Date;
 
-  /** 근무 끝났던 날짜 */
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "근무 끝났던 날짜" })
   @IsDateString()
   endDate: Date;
 
-  /** 내용 */
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "내용" })
   @IsString()
   content: string;
 
-  /** 별점 */
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: Number, description: "별점" })
   @IsNumber()
   @Max(10)
   @Min(0)
