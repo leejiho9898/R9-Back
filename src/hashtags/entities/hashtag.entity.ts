@@ -2,22 +2,38 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
 import { Base } from "src/common/entities/base.entitiy";
 import { Job } from "src/jobs/entities/job.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "~/users/entities/user.entity";
 
 @Entity()
 export class Hashtag extends Base {
   @PrimaryGeneratedColumn()
-  @ApiProperty()
+  @ApiProperty({ type: Number, description: "해시테그 ID" })
   @IsNumber()
   id: number;
 
-  @Column()
-  @ApiProperty()
+  /** 작성자 */
+  @ManyToOne(() => User, (user) => user.hashtags, { eager: true })
+  writer: User;
+
+  @Column({ nullable: true })
+  @ApiProperty({ type: String, description: "대분류" })
   @IsString()
-  category: string;
+  largeCategory: string;
+
+  @Column({ nullable: true })
+  @ApiProperty({ type: String, description: "소분류" })
+  @IsString()
+  smallCategory: string;
 
   @Column()
-  @ApiProperty()
+  @ApiProperty({ type: String, description: "이름" })
   @IsString()
   name: string;
 

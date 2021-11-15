@@ -12,6 +12,7 @@ import {
   IsDateString,
   IsEmail,
   IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
   IsUrl,
@@ -28,6 +29,7 @@ import { Address } from "./address.entity";
 import { Job } from "~/jobs/entities/job.entity";
 import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
+import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Apply } from "~/applys/entities/apply.entity";
 
 export enum Role {
@@ -65,6 +67,18 @@ export class User extends Base {
   @Matches(REGEXP_PASSWORD)
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @Column({ nullable: true })
+  @ApiProperty({ type: String, description: "기업 이름" })
+  @IsString()
+  @IsOptional()
+  bizName?: string;
+
+  @Column({ nullable: true })
+  @ApiProperty({ type: String, description: "기업 사업자번호" })
+  @IsNumber()
+  @IsOptional()
+  bizNumber?: number;
 
   @Column({ type: "enum", enum: Gender })
   @ApiProperty({ enum: Gender, description: "사용자 성별" })
@@ -105,11 +119,24 @@ export class User extends Base {
   @Type(() => Board)
   board: Board[];
 
+  @OneToMany(() => Review, (review) => review.biz)
+  @ApiProperty({ type: [Review], description: "사용자가 작성한 리뷰" })
+  @ValidateNested({ each: true })
+  @Type(() => Review)
+  bizreview: Review[];
+
   @OneToMany(() => Review, (review) => review.writer)
   @ApiProperty({ type: [Review], description: "사용자가 작성한 리뷰" })
   @ValidateNested({ each: true })
   @Type(() => Review)
   reviews: Review[];
+
+
+  @OneToMany(() => Hashtag, (hashtag) => hashtag.writer)
+  @ApiProperty({ type: [Hashtag], description: "사용자가 작성한 리뷰" })
+  @ValidateNested({ each: true })
+  @Type(() => Hashtag)
+  hashtags: Hashtag[];
 
   @OneToMany(() => Apply, (apply) => apply.user)
   @ApiProperty({ type: [Apply], description: "사용자가 작성한 지원서" })
