@@ -21,6 +21,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Apply } from "~/applys/entities/apply.entity";
+import { Favorite } from "~/favorite/entities/favorite.entity";
 
 enum PayMentsMethod {
   /** 시급지불 */
@@ -169,4 +170,8 @@ export class Job extends Base {
   @ApiProperty()
   @IsString()
   sectors: string;
+
+  /** 관심 */
+  @OneToMany(() => Favorite, (favorite) => favorite.job, { eager: true })
+  favorites: Favorite[];
 }

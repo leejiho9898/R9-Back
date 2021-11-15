@@ -20,9 +20,9 @@ import { Job } from "~/jobs/entities/job.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Apply } from "./applys/entities/apply.entity";
 import { Board } from "~/boards/entities/board.entity";
-import { Apply } from "./applys/entities/apply.entity";
 import { UploadsModule } from "~/uploads/uploads.module";
 import { ApplysModule } from "~/applys/applys.module";
+import { FavoritesModule } from "./favorite/favorites.module";
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",
@@ -83,6 +83,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     ReviewsModule,
     UploadsModule,
     ApplysModule,
+    FavoritesModule,
   ],
   providers: [validationPipe, classSerializerInterceptor],
   controllers: [],
