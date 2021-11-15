@@ -19,6 +19,7 @@ import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Job } from "~/jobs/entities/job.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Board } from "~/boards/entities/board.entity";
+import { UploadsModule } from "~/uploads/uploads.module";
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",
@@ -48,6 +49,10 @@ const configModule = ConfigModule.forRoot({
     DATABASE_URL: joi.string().required(),
     SECRET_KEY: joi.string().required(),
     SWAGGER_PATH: joi.string().default("docs"),
+    AWS_REGION: joi.string().required(),
+    AWS_ACCESS_KEY: joi.string().required(),
+    AWS_SECRET_ACCESS_KEY: joi.string().required(),
+    AWS_S3_BUCKET_NAME: joi.string().required(),
   }),
 });
 
@@ -73,6 +78,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     HashtagsModule,
     BoardsModule,
     ReviewsModule,
+    UploadsModule,
   ],
   providers: [validationPipe, classSerializerInterceptor],
   controllers: [],
