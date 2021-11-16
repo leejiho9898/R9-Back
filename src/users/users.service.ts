@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { CreateUserDto } from "~/users/dto/create-user.dto";
 import { UpdateUserDto } from "~/users/dto/update-user.dto";
 import { User } from "~/users/entities/user.entity";
@@ -76,5 +76,17 @@ export class UsersService {
       throw new NotFoundException(`User with id '${id}' does not exist`);
     }
     await this.usersRepository.softDelete({ id });
+  }
+
+  async findUserByBizName(bizName: string) {
+    const found = await this.usersRepository.find({
+      bizName: Like(`%${bizName}%`),
+    });
+    if (!found) {
+      throw new NotFoundException(
+        `User with bizName '${bizName}' does not exist`
+      );
+    }
+    return found;
   }
 }
