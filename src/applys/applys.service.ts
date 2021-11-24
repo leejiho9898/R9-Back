@@ -53,7 +53,7 @@ export class ApplysService {
     return "성공적으로 삭제되었습니다.";
   }
 
-  /**특정 공고의 지원서 목록 불러오기*/
+  /** 특정 공고의 지원서 목록 불러오기 */
   async findApplysByJob(jobId: number) {
     const query = this.applyRepository.createQueryBuilder("apply");
     query.leftJoinAndSelect("apply.job", "job");
