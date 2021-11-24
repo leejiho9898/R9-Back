@@ -8,7 +8,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { CreateUserDto } from "~/users/dto/create-user.dto";
 import { UpdateUserDto } from "~/users/dto/update-user.dto";
-import { User } from "~/users/entities/user.entity";
+import { Role, User } from "~/users/entities/user.entity";
 
 @Injectable()
 export class UsersService {
@@ -32,6 +32,15 @@ export class UsersService {
     return await this.usersRepository.save(
       this.usersRepository.create(createUserDto)
     );
+  }
+
+  async findBusinesses() {
+    const query = this.usersRepository.createQueryBuilder("user");
+    query.select(["user.id", "user.bizName", "user.bizNumber"]);
+    query.leftJoinAndSelect("user.bizreview", "review");
+    query.where({ role: Role.BUSINESS });
+    const biz = query.getMany();
+    return biz;
   }
 
   async findUsers() {

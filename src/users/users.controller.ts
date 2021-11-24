@@ -36,6 +36,17 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
+  @Get("businesses")
+  @ApiOperation({
+    summary: "비즈니스 정보",
+    description: "비즈니스 유저의 정보를 반환한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 처리가 완료됨" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  findBusinesses() {
+    return this.usersService.findBusinesses();
+  }
+
   @Get()
   @Auth(["ADMIN"])
   @ApiOperation({ summary: "유저 검색", description: "유저를 검색한다." })
