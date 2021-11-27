@@ -131,7 +131,6 @@ export class User extends Base {
   @Type(() => Review)
   reviews: Review[];
 
-
   @OneToMany(() => Hashtag, (hashtag) => hashtag.writer)
   @ApiProperty({ type: [Hashtag], description: "사용자가 작성한 리뷰" })
   @ValidateNested({ each: true })
