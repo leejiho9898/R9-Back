@@ -31,6 +31,7 @@ import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Apply } from "~/applys/entities/apply.entity";
+import { Favorite } from "~/favorite/entities/favorite.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
@@ -136,6 +137,12 @@ export class User extends Base {
   @ValidateNested({ each: true })
   @Type(() => Hashtag)
   hashtags: Hashtag[];
+
+  /** 관심 */
+  @OneToMany(() => Favorite, (favorite) => favorite.writer)
+  @ApiProperty({ type: [Favorite], description: "job 관심 리스트" })
+  @ValidateNested({ each: true })
+  favorites: Favorite[];
 
   @OneToMany(() => Apply, (apply) => apply.user)
   @ApiProperty({ type: [Apply], description: "사용자가 작성한 지원서" })

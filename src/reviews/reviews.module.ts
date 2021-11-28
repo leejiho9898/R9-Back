@@ -9,7 +9,8 @@ const typeOrmModule = TypeOrmModule.forFeature([ReviewsRepository]);
 
 @Module({
   imports: [typeOrmModule, UsersModule],
-  providers: [ReviewsService],
   controllers: [ReviewsController],
+  providers: [ReviewsService],
+  exports: [ReviewsService],
 })
 export class ReviewsModule {}

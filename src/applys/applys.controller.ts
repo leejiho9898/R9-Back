@@ -51,7 +51,7 @@ export class ApplysController {
   findApplyById(@Param("id") id: number) {
     return this.applyService.findApplyById(id);
   }
-  
+
   @Delete(":id")
   @ApiOperation({
     summary: "지원서 삭제 API",

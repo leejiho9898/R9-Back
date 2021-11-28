@@ -17,7 +17,7 @@ export class ReviewsService {
   }
 
   async findReviews(query) {
-    return await this.reviewsRepository.find({ order: query, take: 10 });
+    return await this.reviewsRepository.find({ where: query, take: 10 });
   }
 
   async findMyReviews(writer: User) {
@@ -38,7 +38,7 @@ export class ReviewsService {
     const biz = await this.usersService.findOneUserById(bizId);
     if (!biz) {
       throw new NotFoundException(
-        `Board with id ${bizId} and user does not exist`
+        `Review with id ${bizId} and user does not exist`
       );
     }
 
@@ -64,7 +64,7 @@ export class ReviewsService {
     const found = this.reviewsRepository.findOne({ id, writer });
     if (!found) {
       throw new NotFoundException(
-        `Board with id ${id} and user does not exist`
+        `Review with id ${id} and user does not exist`
       );
     }
     await this.reviewsRepository.save(
@@ -76,7 +76,7 @@ export class ReviewsService {
   async deleteReview(id: number, writer: User) {
     const found = await this.reviewsRepository.findOne({ id, writer });
     if (!found) {
-      throw new NotFoundException(`Board with id '${id}' does not exist`);
+      throw new NotFoundException(`Review with id '${id}' does not exist`);
     }
     await this.reviewsRepository.softDelete({ id });
     return "성공적으로 삭제되었습니다.";

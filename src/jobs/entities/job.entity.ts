@@ -154,7 +154,7 @@ export class Job extends Base {
   status: JobStatus;
 
   /** 근무기간 */
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   @IsString()
   period: string;
@@ -166,12 +166,12 @@ export class Job extends Base {
   gender: Gender;
 
   /** 업직종 */
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   @IsString()
   sectors: string;
 
   /** 관심 */
-  @OneToMany(() => Favorite, (favorite) => favorite.job, { eager: true })
+  @OneToMany(() => Favorite, (favorite) => favorite.job)
   favorites: Favorite[];
 }

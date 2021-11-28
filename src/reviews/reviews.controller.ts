@@ -52,7 +52,7 @@ export class ReviewsController {
     return this.reviewsService.createReview(createReviewDto, writer);
   }
 
-  @Get("/search")
+  @Get("search")
   @ApiOperation({
     summary: "리뷰 검색 API",
     description: "Id 검색 검색한다.",
@@ -65,7 +65,7 @@ export class ReviewsController {
     return this.reviewsService.findReviews(query);
   }
 
-  @Get("/me")
+  @Get("me")
   @ApiOperation({
     summary: "리뷰 검색 API",
     description: "Id 검색, 모든 리뷰 검색한다.",

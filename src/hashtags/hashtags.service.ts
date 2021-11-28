@@ -13,7 +13,7 @@ export class HashtagsService {
 
   async findHashtags(query) {
     const found = await this.hashtagsRepository.find({
-      order: query,
+      where: query,
       take: 10,
     });
     if (found.length < 1) {

@@ -13,7 +13,7 @@ export class Favorite extends Base {
   id: number;
 
   /** 작성자 */
-  @ManyToOne(() => User, (user) => user.hashtags, { eager: true })
+  @ManyToOne(() => User, (user) => user.favorites, { eager: true })
   writer: User;
 
   @ManyToOne(() => Job, (job) => job.favorites, { eager: true })

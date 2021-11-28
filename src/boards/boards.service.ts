@@ -10,7 +10,7 @@ export class BoardsService {
 
   async findBoards(query) {
     return await this.boardsRepository.find({
-      order: query,
+      where: query,
       take: 10,
     });
   }
