@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
@@ -82,6 +83,17 @@ export class UsersController {
   @ApiNotFoundResponse({ description: "존재하지 않는 사용자" })
   findOneUserById(@Param("id") id: string) {
     return this.usersService.findOneUserById(id);
+  }
+
+  @Get("search")
+  @ApiOperation({
+    summary: "유저 검색",
+    description: "검색어로 기업 유저를 검색한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 검색이 완료됨" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  findUsersByBizName(@Query("bizName") bizName: string) {
+    return this.usersService.findUserByBizName(bizName);
   }
 
   @Patch("me")
