@@ -37,6 +37,11 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
+  // @Post("fake")
+  // createFakeUser() {
+  //   return this.usersService.createFakeUser();
+  // }
+
   @Get("businesses")
   @ApiOperation({
     summary: "비즈니스 정보",

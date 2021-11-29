@@ -34,6 +34,8 @@ export class UsersService {
     );
   }
 
+  
+
   async findBusinesses() {
     const query = this.usersRepository.createQueryBuilder("user");
     query.select(["user.id", "user.bizName", "user.bizNumber"]);
