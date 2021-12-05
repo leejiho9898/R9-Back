@@ -51,7 +51,7 @@ export class FavoritesController {
 
     console.log("access");
     console.log(pageNo, pageSize);
-    // return this.favoritesService.findMyFavorites(writer, page);
+    return this.favoritesService.findMyFavorites(writer, page);
   }
 
   @Post()

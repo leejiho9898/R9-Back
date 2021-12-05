@@ -22,8 +22,9 @@ import { Apply } from "./applys/entities/apply.entity";
 import { Board } from "~/boards/entities/board.entity";
 import { UploadsModule } from "~/uploads/uploads.module";
 import { ApplysModule } from "~/applys/applys.module";
-import { FavoritesModule } from "./favorite/favorites.module";
-import { Favorite } from "./favorite/entities/favorite.entity";
+import { Favorite } from "./favorites/entities/favorite.entity";
+import { FavoritesModule } from "./favorites/favorites.module";
+
 
 const validationPipe: Provider = {
   provide: "APP_PIPE",

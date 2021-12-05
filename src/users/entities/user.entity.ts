@@ -31,7 +31,7 @@ import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Apply } from "~/applys/entities/apply.entity";
-import { Favorite } from "~/favorite/entities/favorite.entity";
+import { Favorite } from "~/favorites/entities/favorite.entity";
 
 export enum Role {
   ADMIN = "ADMIN",
