@@ -26,6 +26,16 @@ export class HashtagsController {
 
   @Get()
   @ApiOperation({
+    summary: "모든 해시태그 검색 API",
+    description: "모든 해시태그를 검색한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 해시태그를 가져옴" })
+  findHashtags() {
+    return this.hashtagsService.findHashtags();
+  }
+
+  @Get("search")
+  @ApiOperation({
     summary: "해시태그 검색 API",
     description: "제목, 카테고리 검색한다.",
   })
@@ -38,18 +48,29 @@ export class HashtagsController {
   ) {
     const query = { id, name, category };
 
-    return this.hashtagsService.findHashtags(query);
+    return this.hashtagsService.searchHashtags(query);
   }
 
-  @Get("category")
+  @Get("largeCategory")
   @ApiOperation({
     summary: "모든 해시태그 검색 API",
     description: "카테고리 목록 해시태그를 검색한다.",
   })
   @ApiOkResponse({ description: "성공적으로 해시태그를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  getCategory() {
-    return this.hashtagsService.findHashtagsCategory();
+  findLargeCategory() {
+    return this.hashtagsService.findLargeCategory();
+  }
+
+  @Get("smallCategory")
+  @ApiOperation({
+    summary: "모든 해시태그 검색 API",
+    description: "카테고리 목록 해시태그를 검색한다.",
+  })
+  @ApiOkResponse({ description: "성공적으로 해시태그를 가져옴" })
+  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
+  findsmallCategory() {
+    return this.hashtagsService.findsmallCategory();
   }
 
   @Post()

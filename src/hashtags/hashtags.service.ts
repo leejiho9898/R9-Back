@@ -11,7 +11,12 @@ export class HashtagsService {
     private readonly hashtagsRepository: HashtagsRepository
   ) {}
 
-  async findHashtags(query) {
+  async findHashtags() {
+    const found = await this.hashtagsRepository.find();
+    return found;
+  }
+
+  async searchHashtags(query) {
     const found = await this.hashtagsRepository.find({
       where: query,
       take: 10,
@@ -57,8 +62,16 @@ export class HashtagsService {
     return "성공적으로 삭제되었습니다.";
   }
 
-  async findHashtagsCategory() {
-    const found = await this.hashtagsRepository.findCategory();
+  async findLargeCategory() {
+    const found = await this.hashtagsRepository.findLargeCategory();
+    if (!found) {
+      throw new NotFoundException("no date");
+    }
+    return found;
+  }
+
+  async findsmallCategory() {
+    const found = await this.hashtagsRepository.findSmallCategory();
     if (!found) {
       throw new NotFoundException("no date");
     }
