@@ -78,7 +78,7 @@ export class ReviewsService {
     if (!found) {
       throw new NotFoundException(`Review with id '${id}' does not exist`);
     }
-    await this.reviewsRepository.softDelete({ id });
+    await this.reviewsRepository.softDelete(found);
     return "성공적으로 삭제되었습니다.";
   }
 }

@@ -81,12 +81,12 @@ export class User extends Base {
   @IsOptional()
   bizNumber?: number;
 
-  @Column({ type: "enum", enum: Gender })
+  @Column({ type: "enum", enum: Gender, nullable: true })
   @ApiProperty({ enum: Gender, description: "사용자 성별" })
   @IsEnum(Gender)
   gender: Gender;
 
-  @Column({ type: "date", name: "date_of_birth" })
+  @Column({ type: "date", name: "date_of_birth", nullable: true })
   @ApiProperty({ type: String, description: "사용자 생년월일" })
   @IsDateString()
   dateOfBirth: Date;

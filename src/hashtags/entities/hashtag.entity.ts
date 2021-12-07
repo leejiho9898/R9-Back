@@ -18,19 +18,14 @@ export class Hashtag extends Base {
   @IsNumber()
   id: number;
 
-  /** 작성자 */
+  @ApiProperty({ type: User, description: "작성자" })
   @ManyToOne(() => User, (user) => user.hashtags, { eager: true })
   writer: User;
 
   @Column({ nullable: true })
-  @ApiProperty({ type: String, description: "대분류" })
+  @ApiProperty({ type: String, description: "카테고리" })
   @IsString()
-  largeCategory: string;
-
-  @Column({ nullable: true })
-  @ApiProperty({ type: String, description: "소분류" })
-  @IsString()
-  smallCategory: string;
+  category: string;
 
   @Column()
   @ApiProperty({ type: String, description: "이름" })

@@ -1,13 +1,17 @@
-export abstract class PageRequest {
-  pageNo: number | 1;
+import { IsString } from "class-validator";
 
-  pageSize: number | 10;
+export abstract class PageRequest {
+  @IsString()
+  pageNo: string | 1;
+
+  @IsString()
+  pageSize: string | 10;
 
   getOffset(): number {
-    return (this.pageNo - 1) * this.pageSize;
+    return (Number(this.pageNo) - 1) * Number(this.pageSize);
   }
 
   getLimit(): number {
-    return this.pageSize;
+    return Number(this.pageSize);
   }
 }

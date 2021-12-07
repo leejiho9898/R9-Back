@@ -22,6 +22,7 @@ import {
 } from "typeorm";
 import { Apply } from "~/applys/entities/apply.entity";
 import { Favorite } from "~/favorites/entities/favorite.entity";
+
 enum PayMentsMethod {
   /** 시급지불 */
   PERHOUR = "PERHOUR",

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { Page } from "~/common/page/page";
 import { JobsService } from "~/jobs/jobs.service";
 import { FavoritesRepository } from "./favorites.repository";
 
@@ -13,12 +14,14 @@ export class FavoritesService {
     return await this.favoritesRepository.find({ take: 10 });
   }
 
-  async findMyFavorites(writer, pageIndex) {
-    return await this.favoritesRepository.find({
-      where: writer,
-      take: 10,
-      skip: pageIndex,
+  async findMyFavorites(writer, page) {
+    const total = await this.favoritesRepository.count({ writer });
+    const found = await this.favoritesRepository.find({
+      where: { writer },
+      take: page.getLimit(), // Limit
+      skip: page.getOffset(), // Offset
     });
+    return new Page(total, page.pageSize, found);
   }
 
   async createFavorite(createFavoriteDto, writer) {

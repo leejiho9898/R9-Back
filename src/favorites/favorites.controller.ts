@@ -15,9 +15,10 @@ import {
 } from "@nestjs/swagger/dist/decorators";
 import { Auth } from "~/auth/decorators/auth.decorator";
 import { CurrentUser } from "~/common/decorators/current-user.decorator";
-import { PageRequest } from "~/common/page/pageRequest";
+// import { Page } from "~/common/page/page";
 import { User } from "~/users/entities/user.entity";
 import { CreateFavoriteDto } from "./dto/create-favorite.dto";
+import { SearchFavoriteDto } from "./dto/search-favorite.dto";
 import { FavoritesService } from "./favorites.service";
 
 @Controller("favorites")
@@ -44,13 +45,10 @@ export class FavoritesController {
   @ApiOkResponse({ description: "성공적으로 관심을 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  findMyFavorites(@CurrentUser() writer: User, @Query() page: PageRequest) {
-    const { pageNo, pageSize } = page;
-    // @Query("pageNo") pageNo: number,
-    // @Query("pageSize") pageSize: number
-
-    console.log("access");
-    console.log(pageNo, pageSize);
+  findMyFavorites(
+    @CurrentUser() writer: User,
+    @Query() page: SearchFavoriteDto
+  ) {
     return this.favoritesService.findMyFavorites(writer, page);
   }
 
