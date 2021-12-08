@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "src/users/entities/user.entity";
+import { Page } from "~/common/page/page";
 import { UsersService } from "~/users/users.service";
 import { CreateReviewDto } from "./dto/create-review.dto";
 import { UpdateReviewDto } from "./dto/update-review.dto";
@@ -12,24 +13,41 @@ export class ReviewsService {
     private readonly usersService: UsersService
   ) {}
 
-  async findAllReviews() {
-    return await this.reviewsRepository.find({ take: 10 });
+  async findAllReviews(page) {
+    const total = await this.reviewsRepository.count();
+    const found = await this.reviewsRepository.find({
+      take: page.getLimit(),
+      skip: page.getOffset(),
+    });
+    return new Page(total, page.pageSize, found);
   }
 
   async findReviews(query) {
-    return await this.reviewsRepository.find({ where: query, take: 10 });
+    return await this.reviewsRepository.find({ where: { query }, take: 10 });
   }
 
-  async findMyReviews(writer: User) {
-    return await this.reviewsRepository.find({ writer });
+  async findMyReviews(writer: User, page) {
+    const total = await this.reviewsRepository.count({ writer });
+    const found = await this.reviewsRepository.find({
+      where: { writer },
+      take: page.getLimit(),
+      skip: page.getOffset(),
+    });
+    return new Page(total, page.pageSize, found);
   }
 
-  async findReviewsbyUserId(bizId: string) {
-    const found = await this.usersService.findOneUserById(bizId);
+  async findReviewsbyUserId(bizId: string, page) {
+    const biz = await this.usersService.findOneUserById(bizId);
     const param = {
-      biz: found,
+      biz,
     };
-    return await this.reviewsRepository.find(param);
+    const total = await this.reviewsRepository.count(param);
+    const found = await this.reviewsRepository.find({
+      where: param,
+      take: page.getLimit(),
+      skip: page.getOffset(),
+    });
+    return new Page(total, page.pageSize, found);
   }
 
   async createReview(createReviewDto: CreateReviewDto, writer: User) {

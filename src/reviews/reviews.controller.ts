@@ -17,6 +17,7 @@ import {
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
+import { SearchFavoriteDto } from "~/favorites/dto/search-favorite.dto";
 import { CreateReviewDto } from "./dto/create-review.dto";
 import { UpdateReviewDto } from "./dto/update-review.dto";
 import { ReviewsService } from "./reviews.service";
@@ -33,8 +34,8 @@ export class ReviewsController {
   })
   @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findReview() {
-    return this.reviewsService.findAllReviews();
+  findReview(@Query() page: SearchFavoriteDto) {
+    return this.reviewsService.findAllReviews(page);
   }
 
   @Post()
@@ -73,8 +74,8 @@ export class ReviewsController {
   @ApiOkResponse({ description: "성공적으로 라뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  findMyReviews(@CurrentUser() writer: User) {
-    return this.reviewsService.findMyReviews(writer);
+  findMyReviews(@CurrentUser() writer: User, @Query() page: SearchFavoriteDto) {
+    return this.reviewsService.findMyReviews(writer, page);
   }
 
   @Get("search/:bizId")
@@ -84,8 +85,11 @@ export class ReviewsController {
   })
   @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findReviewByBizId(@Param("bizId") bizId: string) {
-    return this.reviewsService.findReviewsbyUserId(bizId);
+  findReviewByBizId(
+    @Param("bizId") bizId: string,
+    @Query() page: SearchFavoriteDto
+  ) {
+    return this.reviewsService.findReviewsbyUserId(bizId, page);
   }
 
   @Patch(":id")

@@ -25,7 +25,6 @@ import { ApplysModule } from "~/applys/applys.module";
 import { Favorite } from "./favorites/entities/favorite.entity";
 import { FavoritesModule } from "./favorites/favorites.module";
 
-
 const validationPipe: Provider = {
   provide: "APP_PIPE",
   useFactory: () =>

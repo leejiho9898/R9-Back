@@ -33,8 +33,8 @@ export class FavoritesController {
   })
   @ApiOkResponse({ description: "성공적으로 관심을 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findFavorites() {
-    return this.favoritesService.findAllFavorites();
+  findFavorites(@Query() page: SearchFavoriteDto) {
+    return this.favoritesService.findAllFavorites(page);
   }
 
   @Get("me")

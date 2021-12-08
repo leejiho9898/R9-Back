@@ -11,7 +11,6 @@ export class BoardsService {
   async findBoards(query) {
     return await this.boardsRepository.find({
       where: query,
-      take: 10,
     });
   }
 
