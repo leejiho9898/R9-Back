@@ -66,10 +66,17 @@ export class HashtagsService {
   }
 
   async findCategory() {
+    const arr = [];
+
     const found = await this.hashtagsRepository.findCategory();
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < found.length; i++) {
+      arr.push(found[i].category);
+    }
     if (!found) {
       throw new NotFoundException("no date");
     }
-    return found;
+    return arr;
   }
 }

@@ -23,6 +23,11 @@ export class Hashtag extends Base {
   writer: User;
 
   @Column({ nullable: true })
+  @ApiProperty({ type: String, description: "작성자 ID" })
+  @IsString()
+  writerId: string;
+
+  @Column({ nullable: true })
   @ApiProperty({ type: String, description: "카테고리" })
   @IsString()
   category: string;
@@ -36,4 +41,9 @@ export class Hashtag extends Base {
   @ApiProperty()
   @IsNumber()
   job: Job;
+
+  // @ManyToMany(() => User, (user) => user.useHashtag)
+  // @ApiProperty()
+  // @IsString()
+  // useUser: User;
 }
