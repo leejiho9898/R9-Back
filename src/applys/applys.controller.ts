@@ -57,7 +57,8 @@ export class ApplysController {
     summary: "지원서 삭제 API",
     description: "지원서를 삭제한다 (지원을 취소한다.)",
   })
-  deleteApply(@Param("id") id: number) {
-    return this.applyService.deleteApply(id);
+  @Auth(["ANY"])
+  deleteApply(@Param("id") id: number, @CurrentUser() user: User) {
+    return this.applyService.deleteApply(id, user);
   }
 }

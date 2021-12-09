@@ -8,9 +8,9 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
-import { Base } from "src/common/entities/base.entitiy";
-import { Hashtag } from "src/hashtags/entities/hashtag.entity";
-import { User } from "src/users/entities/user.entity";
+import { Base } from "~/common/entities/base.entitiy";
+import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { User } from "~/users/entities/user.entity";
 import {
   Column,
   Entity,

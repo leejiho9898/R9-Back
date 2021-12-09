@@ -52,13 +52,14 @@ export class JobsService {
   }
 
   // 공고 삭제
-  async deleteJob(id: number, writer: User): Promise<void> {
-    const result = await this.jobsRepository.delete({ id, writer });
-    if (result.affected === 0) {
+  async deleteJob(id: number, writer: User) {
+    const result = await this.jobsRepository.findOne({ id, writer });
+    if (!result) {
       throw new NotFoundException(
         `해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`
       );
     }
+    await this.jobsRepository.softDelete({ id });
   }
 
   // 공고 업데이트

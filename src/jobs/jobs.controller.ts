@@ -83,6 +83,7 @@ export class JobsController {
     summary: "공고 삭제API",
     description: "특정 id값을 가진 공고를 불러온다.",
   })
+  @Auth(["ANY"])
   deleteJob(@Param("id") id: number, @CurrentUser() writer: User) {
     return this.jobsService.deleteJob(id, writer);
   }

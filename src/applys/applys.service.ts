@@ -42,14 +42,14 @@ export class ApplysService {
   }
 
   /** 지원서 삭제 */
-  async deleteApply(id: number) {
-    const apply = await this.applyRepository.findOne({ id });
+  async deleteApply(id: number, user: User) {
+    const apply = await this.applyRepository.findOne({ id, user });
     if (!apply) {
       throw new NotFoundException(
         `해당 id(${id}) 값을 가진 지원서를 찾을 수 없습니다.`
       );
     }
-    await this.applyRepository.softDelete(apply);
+    await this.applyRepository.softDelete({ id });
     return "성공적으로 삭제되었습니다.";
   }
 
