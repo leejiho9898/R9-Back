@@ -3,17 +3,9 @@ import { Hashtag } from "./entities/hashtag.entity";
 
 @EntityRepository(Hashtag)
 export class HashtagsRepository extends Repository<Hashtag> {
-  async findSmallCategory() {
+  async findCategory() {
     const found = await this.createQueryBuilder("t1")
-      .select("t1.smallCategory", "smallCategory")
-      .distinct(true)
-      .getRawMany();
-    return found;
-  }
-
-  async findLargeCategory() {
-    const found = await this.createQueryBuilder("t1")
-      .select("t1.largeCategory", "largeCategory")
+      .select("t1.category", "category")
       .distinct(true)
       .getRawMany();
     return found;

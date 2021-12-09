@@ -19,7 +19,6 @@ export class HashtagsService {
   async searchHashtags(query) {
     const found = await this.hashtagsRepository.find({
       where: query,
-      take: 10,
     });
     if (found.length < 1) {
       throw new NotFoundException("no date");
@@ -27,10 +26,14 @@ export class HashtagsService {
     return found;
   }
 
-  async createHashtag(createHashtagDto: CreateHashtagDto) {
-    await this.hashtagsRepository.save(
-      this.hashtagsRepository.create(createHashtagDto)
-    );
+  async createHashtag(createHashtagDto: CreateHashtagDto, writer) {
+    const { name, category } = createHashtagDto;
+    const hashtag = {
+      writer,
+      name,
+      category,
+    };
+    await this.hashtagsRepository.save(this.hashtagsRepository.create(hashtag));
     return "성공적으로 생성되었습니다.";
   }
 
@@ -62,16 +65,8 @@ export class HashtagsService {
     return "성공적으로 삭제되었습니다.";
   }
 
-  async findLargeCategory() {
-    const found = await this.hashtagsRepository.findLargeCategory();
-    if (!found) {
-      throw new NotFoundException("no date");
-    }
-    return found;
-  }
-
-  async findsmallCategory() {
-    const found = await this.hashtagsRepository.findSmallCategory();
+  async findCategory() {
+    const found = await this.hashtagsRepository.findCategory();
     if (!found) {
       throw new NotFoundException("no date");
     }
