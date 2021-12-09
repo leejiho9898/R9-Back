@@ -8,9 +8,6 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
-import { Base } from "~/common/entities/base.entitiy";
-import { Hashtag } from "~/hashtags/entities/hashtag.entity";
-import { User } from "~/users/entities/user.entity";
 import {
   Column,
   Entity,
@@ -20,8 +17,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Base } from "~/common/entities/base.entitiy";
+import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { User } from "~/users/entities/user.entity";
 import { Apply } from "~/applys/entities/apply.entity";
 import { Favorite } from "~/favorites/entities/favorite.entity";
+
 enum PayMentsMethod {
   /** 시급지불 */
   PERHOUR = "PERHOUR",
