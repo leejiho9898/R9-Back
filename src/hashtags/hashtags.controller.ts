@@ -44,12 +44,8 @@ export class HashtagsController {
   })
   @ApiOkResponse({ description: "성공적으로 해시태그를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  search(
-    @Query("id") id: number,
-    @Query("name") name: string,
-    @Query("category") category: string
-  ) {
-    const query = { id, name, category };
+  search(@Query("category") category: string) {
+    const query = { category };
 
     return this.hashtagsService.searchHashtags(query);
   }
