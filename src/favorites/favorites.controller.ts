@@ -15,7 +15,6 @@ import {
 } from "@nestjs/swagger/dist/decorators";
 import { Auth } from "~/auth/decorators/auth.decorator";
 import { CurrentUser } from "~/common/decorators/current-user.decorator";
-// import { Page } from "~/common/page/page";
 import { User } from "~/users/entities/user.entity";
 import { CreateFavoriteDto } from "./dto/create-favorite.dto";
 import { SearchFavoriteDto } from "./dto/search-favorite.dto";

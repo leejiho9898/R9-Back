@@ -74,7 +74,7 @@ export class HashtagsController {
     @Body() createHashtagDto: CreateHashtagDto,
     @CurrentUser() writer: User
   ) {
-    return this.hashtagsService.createHashtag(createHashtagDto, writer);
+    return this.hashtagsService.createHashtag(createHashtagDto, writer.id);
   }
 
   @Patch(":id")

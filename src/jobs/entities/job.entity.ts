@@ -62,13 +62,13 @@ export class Job extends Base {
   writer: User;
 
   /** 해쉬태그 */
-  @ManyToMany(() => Hashtag, (hashtag) => hashtag.job, {
+  @ManyToMany(() => Hashtag, {
     eager: true,
   })
   @ApiProperty()
   @JoinTable()
   @IsOptional({ each: true })
-  hashtags: Hashtag[];
+  hashtags?: Hashtag[];
 
   @OneToMany(() => Apply, (apply) => apply.job, { cascade: true })
   @ApiProperty({ type: [Apply], description: "해당 공고에 작성된 지원서" })

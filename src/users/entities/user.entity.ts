@@ -4,7 +4,8 @@ import {
   Column,
   Entity,
   JoinColumn,
-  // ManyToMany,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -133,18 +134,13 @@ export class User extends Base {
   @Type(() => Review)
   reviews: Review[];
 
-  @OneToMany(() => Hashtag, (hashtag) => hashtag.writer)
-  @ApiProperty({ type: [Hashtag], description: "사용자가 만든 해시태그" })
-  @ValidateNested({ each: true })
-  @Type(() => Hashtag)
-  hashtags: Hashtag[];
-
-  // @ManyToMany(() => Hashtag, (hashtag) => hashtag.useUser, {
-  //   eager: true,
-  // })
-  // @ApiProperty({ type: [Hashtag], description: "사용자가 사용한 해시태그" })
-  // @IsOptional({ each: true })
-  // useHashtag?: Hashtag[];
+  @ManyToMany(() => Hashtag, {
+    eager: true,
+  })
+  @JoinTable()
+  @ApiProperty({ type: [Hashtag], description: "사용자가 사용한 해시태그" })
+  @IsOptional({ each: true })
+  useHashtags?: Hashtag[];
 
   /** 관심 */
   @OneToMany(() => Favorite, (favorite) => favorite.writer)

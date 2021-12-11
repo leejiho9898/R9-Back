@@ -26,10 +26,10 @@ export class HashtagsService {
     return found;
   }
 
-  async createHashtag(createHashtagDto: CreateHashtagDto, writer) {
+  async createHashtag(createHashtagDto: CreateHashtagDto, writerId) {
     const { name, category } = createHashtagDto;
     const hashtag = {
-      writer,
+      writerId,
       name,
       category,
     };

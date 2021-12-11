@@ -13,4 +13,5 @@ export class CreateUserDto extends PickType(User, [
   "address",
   "role",
   "token",
+  "useHashtags",
 ] as const) {}

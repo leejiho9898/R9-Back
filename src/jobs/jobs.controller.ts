@@ -13,6 +13,7 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
+import { SearchFavoriteDto } from "~/favorites/dto/search-favorite.dto";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { JobsService } from "./jobs.service";
@@ -54,6 +55,25 @@ export class JobsController {
     ids: number[]
   ) {
     return this.jobsService.findJobsByHashtag(ids);
+  }
+
+  /** hashtag를 통한 맞춤 공고 불러오기 */
+  @Get("custom")
+  @ApiOperation({
+    summary: "특정 해시태그를 가진 공고 불러오기API",
+    description: "특정 해시태그를 가진 공고들을 불러온다.",
+  })
+  @Auth(["ANY"])
+  findJobsByHashtags(
+    @CurrentUser() writer: User,
+    @Query() page: SearchFavoriteDto
+  ) {
+    const hashtagIds = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < writer.useHashtags.length; i++) {
+      hashtagIds.push(writer.useHashtags[i].id);
+    }
+    return this.jobsService.findJobsByHashtags(hashtagIds, page);
   }
 
   /** 내가올린 공고 불러오기 */
