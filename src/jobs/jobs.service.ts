@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
-import { Repository, Any, Raw, getManager } from "typeorm";
-import { Page } from "~/common/page/page";
-import { Hashtag } from "~/hashtags/entities/hashtag.entity";
+import { In, Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { SearchJobDto } from "./dto/search-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
@@ -39,17 +37,24 @@ export class JobsService {
   }
 
   //* * hashtag 사용하여 필터링(페이징 처리) */
-  async findJobsByHashtags(ids: number[], page: SearchJobDto) {
-    console.log(ids);
-    const query = this.jobsRepository.createQueryBuilder("job");
-    query.leftJoinAndSelect("job.writer", "user");
-    query.leftJoinAndSelect("job.hashtags", "hashtag");
-    query.where("hashtag.id IN (:...hashtagId)", { hashtagId: ids });
-    query.take(page.getLimit());
-    query.skip(page.getOffset());
+  async findJobsByHashtags(hashtagIds: number[], page: SearchJobDto) {
+    const query = await this.jobsRepository
+      .createQueryBuilder("job")
+      .leftJoinAndSelect("job.hashtags", "hashtag")
+      .where("hashtag.id IN (:...hashtagIds)", { hashtagIds })
+      .take(page.getLimit())
+      .skip(page.getOffset())
+      .orderBy("job.createdAt", "DESC")
+      .getMany();
 
-    const jobs = query.getMany();
-    return jobs;
+    const jobIds = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < query.length; i++) {
+      jobIds.push(query[i].id);
+    }
+    const found = await this.jobsRepository.find({ id: In(jobIds) });
+
+    return found;
   }
 
   // 내가올린 공고 불러오기
