@@ -45,8 +45,8 @@ export class ApplysController {
 
   @Get(":id")
   @ApiOperation({
-    summary: "지원자 이력서 확인API",
-    description: "특정 공고의 지원자 목록을 불러온다.",
+    summary: "지원서 확인API",
+    description: "특정 지원서를 불러온다.",
   })
   findApplyById(@Param("id") id: number) {
     return this.applyService.findApplyById(id);

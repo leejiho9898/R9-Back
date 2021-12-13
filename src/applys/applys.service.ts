@@ -57,6 +57,7 @@ export class ApplysService {
   async findApplysByJob(jobId: number) {
     const query = this.applyRepository.createQueryBuilder("apply");
     query.leftJoinAndSelect("apply.job", "job");
+    query.leftJoinAndSelect("apply.user", "user");
     query.where("job.id = :jobId", { jobId });
     const applys = query.getMany();
     if (!applys) {

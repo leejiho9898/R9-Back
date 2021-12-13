@@ -27,7 +27,6 @@ export class JobsService {
 
   //* * hashtag 사용하여 필터링 */
   async findJobsByHashtag(ids: number[]) {
-    console.log(ids);
     const query = this.jobsRepository.createQueryBuilder("job");
     query.leftJoinAndSelect("job.writer", "user");
     query.leftJoinAndSelect("job.hashtags", "hashtag");
@@ -88,14 +87,12 @@ export class JobsService {
   // 공고 업데이트
   async updateJob(updateJobDto: UpdateJobDto, id: number) {
     const found = await this.jobsRepository.findOne({ id });
-    console.log(updateJobDto);
     if (!found) {
       throw new NotFoundException(
         `해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`
       );
     }
     const updatedJob = this.jobsRepository.create({ id, ...updateJobDto });
-    console.log(updatedJob);
     await this.jobsRepository.save(updatedJob);
   }
 }
