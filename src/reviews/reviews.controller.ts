@@ -17,8 +17,8 @@ import {
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
-import { SearchFavoriteDto } from "~/favorites/dto/search-favorite.dto";
 import { CreateReviewDto } from "./dto/create-review.dto";
+import { SearchReviewDto } from "./dto/search-review.dto";
 import { UpdateReviewDto } from "./dto/update-review.dto";
 import { ReviewsService } from "./reviews.service";
 
@@ -34,7 +34,7 @@ export class ReviewsController {
   })
   @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findReview(@Query() page: SearchFavoriteDto) {
+  findReview(@Query() page: SearchReviewDto) {
     return this.reviewsService.findAllReviews(page);
   }
 
@@ -53,19 +53,6 @@ export class ReviewsController {
     return this.reviewsService.createReview(createReviewDto, writer);
   }
 
-  @Get("search")
-  @ApiOperation({
-    summary: "리뷰 검색 API",
-    description: "Id 검색 검색한다.",
-  })
-  @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
-  @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findReviewById(@Query("id") id: number) {
-    const query = { id };
-
-    return this.reviewsService.findReviews(query);
-  }
-
   @Get("me")
   @ApiOperation({
     summary: "리뷰 검색 API",
@@ -74,22 +61,19 @@ export class ReviewsController {
   @ApiOkResponse({ description: "성공적으로 라뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
-  findMyReviews(@CurrentUser() writer: User, @Query() page: SearchFavoriteDto) {
+  findMyReviews(@CurrentUser() writer: User, @Query() page: SearchReviewDto) {
     return this.reviewsService.findMyReviews(writer, page);
   }
 
-  @Get("search/:bizId")
+  @Get("search")
   @ApiOperation({
     summary: "리뷰 검색 API",
-    description: "기업별 검색 검색한다.",
+    description: "Id ,기업별 검색 검색한다.",
   })
   @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
-  findReviewByBizId(
-    @Param("bizId") bizId: string,
-    @Query() page: SearchFavoriteDto
-  ) {
-    return this.reviewsService.findReviewsbyUserId(bizId, page);
+  findReviewByBizId(@Query() page: SearchReviewDto) {
+    return this.reviewsService.findReviews(page);
   }
 
   @Patch(":id")

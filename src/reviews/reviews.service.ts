@@ -22,28 +22,33 @@ export class ReviewsService {
     return new Page(total, page.pageSize, found);
   }
 
-  async findReviews(query) {
-    return await this.reviewsRepository.find({ where: { query }, take: 10 });
-  }
-
-  async findMyReviews(writer: User, page) {
-    const total = await this.reviewsRepository.count({ writer });
+  async findReviews(page) {
+    let param = {};
+    if (page.bizId) {
+      const biz = await this.usersService.findOneUserById(page.bizId);
+      if (!biz) {
+        throw new NotFoundException(
+          `Review with id ${page.bizId} and user does not exist`
+        );
+      }
+      if (page.id) param = { biz, id: page.id };
+      else param = { biz };
+    } else {
+      param = { id: page.id };
+    }
+    const total = await this.reviewsRepository.count(param);
     const found = await this.reviewsRepository.find({
-      where: { writer },
+      where: param,
       take: page.getLimit(),
       skip: page.getOffset(),
     });
     return new Page(total, page.pageSize, found);
   }
 
-  async findReviewsbyUserId(bizId: string, page) {
-    const biz = await this.usersService.findOneUserById(bizId);
-    const param = {
-      biz,
-    };
-    const total = await this.reviewsRepository.count(param);
+  async findMyReviews(writer: User, page) {
+    const total = await this.reviewsRepository.count({ writer });
     const found = await this.reviewsRepository.find({
-      where: param,
+      where: { writer },
       take: page.getLimit(),
       skip: page.getOffset(),
     });
