@@ -40,8 +40,8 @@ export class JobsController {
     summary: "모든 공고 불러오기API",
     description: "모든 공고를 불러온다",
   })
-  findAllJobs() {
-    return this.jobsService.findJobs();
+  findAllJobs(@Query() page: SearchFavoriteDto) {
+    return this.jobsService.findJobs(page);
   }
 
   /** 특정  hashtag를 가진 공고 불러오기 */
@@ -87,6 +87,16 @@ export class JobsController {
     return this.jobsService.findMyJobs(writer);
   }
 
+  /** 검색 */
+  @Get("search")
+  @ApiOperation({
+    summary: "조건을 만족하는 공고 불러오기API",
+    description: "조건을 만족하는 공고를 불러온다.",
+  })
+  findJobsByTitle(@Query("title") title: string) {
+    return this.jobsService.findJobsByTitle(title);
+  }
+
   /** 특정 공고 불러오기 */
   @Get(":id")
   @ApiOperation({
@@ -112,5 +122,16 @@ export class JobsController {
   @Patch(":id")
   updateJob(@Body() updateJobDto: UpdateJobDto, @Param("id") id: number) {
     return this.jobsService.updateJob(updateJobDto, id);
+  }
+
+  /** 공고 상태 업데이트 */
+  @Patch("status/:id")
+  @ApiOperation({
+    summary: "공고 상태 업데이트",
+    description: "공고가 INACTIVE 면 ACTIVE로, 반대면 반대로 한다.",
+  })
+  @Auth(["ANY"])
+  switchJobState(@Param("id") id: number) {
+    return this.jobsService.switchJobState(id);
   }
 }

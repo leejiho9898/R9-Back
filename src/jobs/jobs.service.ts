@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
-import { In, Repository } from "typeorm";
+import { In, Like, Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
 import { SearchJobDto } from "./dto/search-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
-import { Job } from "./entities/job.entity";
+import { Job, JobStatus } from "./entities/job.entity";
+import { Page } from "~/common/page/page";
 
 @Injectable()
 export class JobsService {
@@ -21,8 +22,13 @@ export class JobsService {
   }
 
   // 모든 공고 불러오기
-  async findJobs() {
-    return this.jobsRepository.find();
+  async findJobs(page) {
+    const total = await this.jobsRepository.count();
+    const found = await this.jobsRepository.find({
+      take: page.getLimit(),
+      skip: page.getOffset(),
+    });
+    return new Page(total, page.pageSize, found);
   }
 
   //* * hashtag 사용하여 필터링 */
@@ -62,6 +68,19 @@ export class JobsService {
     return jobs;
   }
 
+  // 조건에 맞는 공고 불러오기
+  async findJobsByTitle(title: string) {
+    const found = await this.jobsRepository.find({
+      title: Like(`%${title}%`),
+    });
+    if (!found) {
+      throw new NotFoundException(
+        `User with bizName '${title}' does not exist`
+      );
+    }
+    return found;
+  }
+
   // 특정 id값의 공고 불러오기
   async findJobById(id: number) {
     const found = await this.jobsRepository.findOne(id);
@@ -94,5 +113,26 @@ export class JobsService {
     }
     const updatedJob = this.jobsRepository.create({ id, ...updateJobDto });
     await this.jobsRepository.save(updatedJob);
+  }
+
+  // 공고 상태 업데이트
+  async switchJobState(id: number) {
+    const found = await this.jobsRepository.findOne({ id });
+    if (!found) {
+      throw new NotFoundException(
+        `해당 id(${id}) 값을 가진 공고를 찾을 수 없습니다.`
+      );
+    }
+    let status = JobStatus.INACTIVATE;
+    if (found.status === JobStatus.INACTIVATE) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      status = JobStatus.ACTIVATE;
+    }
+    const updatedJob = this.jobsRepository.create({
+      id,
+      status,
+    });
+
+    return await this.jobsRepository.save(updatedJob);
   }
 }
