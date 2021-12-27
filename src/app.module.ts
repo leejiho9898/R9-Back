@@ -12,14 +12,12 @@ import { AuthModule } from "~/auth/auth.module";
 import { JobsModule } from "~/jobs/jobs.module";
 import { HashtagsModule } from "~/hashtags/hashtags.module";
 import { ReviewsModule } from "~/reviews/reviews.module";
-import { BoardsModule } from "~/boards/boards.module";
 import { User } from "~/users/entities/user.entity";
 import { Address } from "~/users/entities/address.entity";
 import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Job } from "~/jobs/entities/job.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Apply } from "./applys/entities/apply.entity";
-import { Board } from "~/boards/entities/board.entity";
 import { UploadsModule } from "~/uploads/uploads.module";
 import { ApplysModule } from "~/applys/applys.module";
 import { Favorite } from "./favorites/entities/favorite.entity";
@@ -66,7 +64,7 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     type: "postgres",
     url: configService.get<string>("DATABASE_URL"),
     logging: configService.get<string>("NODE_ENV") !== "production",
-    entities: [User, Address, Job, Hashtag, Board, Review, Apply, Favorite],
+    entities: [User, Address, Job, Hashtag, Review, Apply, Favorite],
     synchronize: configService.get<string>("NODE_ENV") !== "production",
   }),
   inject: [ConfigService],
@@ -80,7 +78,6 @@ const typeOrmModule = TypeOrmModule.forRootAsync({
     AuthModule,
     JobsModule,
     HashtagsModule,
-    BoardsModule,
     ReviewsModule,
     UploadsModule,
     ApplysModule,
