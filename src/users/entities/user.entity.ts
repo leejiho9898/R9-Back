@@ -14,7 +14,6 @@ import {
   IsDateString,
   IsEmail,
   IsEnum,
-  IsNumber,
   IsOptional,
   IsString,
   IsUrl,
@@ -29,7 +28,6 @@ import { REGEXP_PASSWORD } from "~/common/constants/regexp";
 import { Base } from "~/common/entities/base.entitiy";
 import { Address } from "./address.entity";
 import { Job } from "~/jobs/entities/job.entity";
-import { Board } from "~/boards/entities/board.entity";
 import { Review } from "~/reviews/entities/review.entity";
 import { Hashtag } from "~/hashtags/entities/hashtag.entity";
 import { Apply } from "~/applys/entities/apply.entity";
@@ -79,9 +77,9 @@ export class User extends Base {
 
   @Column({ nullable: true })
   @ApiProperty({ type: String, description: "기업 사업자번호" })
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  bizNumber?: number;
+  bizNumber?: string;
 
   @Column({ type: "enum", enum: Gender, nullable: true })
   @ApiProperty({ enum: Gender, description: "사용자 성별" })
@@ -115,12 +113,6 @@ export class User extends Base {
   @ValidateNested({ each: true })
   @Type(() => Job)
   jobs: Job[];
-
-  @OneToMany(() => Board, (board) => board.writer)
-  @ApiProperty({ type: [Board], description: "사용자가 작성한 게시글" })
-  @ValidateNested({ each: true })
-  @Type(() => Board)
-  board: Board[];
 
   @OneToMany(() => Review, (review) => review.biz)
   @ApiProperty({ type: [Review], description: "사용자에게 작성한 리뷰" })
