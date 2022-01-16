@@ -58,7 +58,7 @@ export class ReviewsController {
     summary: "리뷰 검색 API",
     description: "Id 검색, 모든 리뷰 검색한다.",
   })
-  @ApiOkResponse({ description: "성공적으로 라뷰를 가져옴" })
+  @ApiOkResponse({ description: "성공적으로 리뷰를 가져옴" })
   @ApiBadRequestResponse({ description: "전송된 데이터가 유효하지않음" })
   @Auth(["ANY"])
   findMyReviews(@CurrentUser() writer: User, @Query() page: SearchReviewDto) {

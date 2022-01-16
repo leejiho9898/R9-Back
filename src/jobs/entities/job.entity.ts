@@ -23,7 +23,7 @@ import { User } from "~/users/entities/user.entity";
 import { Apply } from "~/applys/entities/apply.entity";
 import { Favorite } from "~/favorites/entities/favorite.entity";
 
-enum PayMentsMethod {
+export enum PayMentsMethod {
   /** 시급지불 */
   PERHOUR = "PERHOUR",
   /** 일당지불 */
@@ -31,7 +31,7 @@ enum PayMentsMethod {
   /** 월급 지불 */
   PERMONTH = "PERMONTH",
 }
-enum JobStatus {
+export enum JobStatus {
   /** 모집중 */
   ACTIVATE = "ACTIVATE",
   /** 모집 완료 */

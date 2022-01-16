@@ -5,7 +5,7 @@ import { PageRequest } from "~/common/page/pageRequest";
 export class SearchReviewDto extends PageRequest {
   @IsString()
   @IsOptional()
-  @ApiProperty({ type: String, description: "기업 유저 ID" })
+  @ApiProperty({ type: String, description: "ID" })
   id?: number;
 
   @IsString()
