@@ -6,12 +6,14 @@ import { CreateJobDto } from "./dto/create-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job, JobStatus } from "./entities/job.entity";
 import { Page } from "~/common/page/page";
+import { HashtagsService } from "~/hashtags/hashtags.service";
 
 @Injectable()
 export class JobsService {
   constructor(
     @InjectRepository(Job)
-    private jobsRepository: Repository<Job>
+    private jobsRepository: Repository<Job>,
+    private readonly hashtagsService: HashtagsService
   ) {}
 
   // 공고 생성
@@ -38,6 +40,78 @@ export class JobsService {
     query.where("hashtag.id IN (:...hashtagId)", { hashtagId: ids });
     const jobs = query.getMany();
     return jobs;
+  }
+
+  async searchJobList(page: SearchJobDto) {
+    const query = await this.jobsRepository
+      .createQueryBuilder("job")
+      .leftJoinAndSelect("job.hashtags", "hashtag")
+      .where("1=1");
+
+    // 제목
+    if (page.title) {
+      query.andWhere("job.title LIKE :title", { title: `%${page.title}%` });
+    }
+
+    // 주소
+    if (page.adress) {
+      query.andWhere("job.adress LIKE :adress", { adress: `%${page.adress}%` });
+    }
+
+    // 급여 방식
+    if (page.payment) {
+      query.andWhere("job.payment = :payment", { payment: page.payment });
+    }
+
+    // 근무형태
+    if (page.workType) {
+      query.andWhere("job.workType = :workType", {
+        workType: page.workType,
+      });
+    }
+
+    // 근무 기간
+    if (page.period) {
+      query.andWhere("job.period = :period", { period: page.period });
+    }
+
+    // 인원
+    if (page.personnel) {
+      query.andWhere("job.personnel = :personnel", {
+        personnel: page.personnel,
+      });
+    }
+
+    // 나이
+    if (page.age) {
+      query.andWhere("job.age = :age", { age: page.age });
+    }
+
+    // 해시태그 검색
+    if (page.hashtagIds) {
+      const hashtagIds = page.hashtagIds.split(",");
+      query.andWhere("hashtag.id IN (:...hashtagIds)", { hashtagIds });
+    }
+
+    query.take(page.getLimit());
+    query.skip(page.getOffset());
+    query.orderBy("job.createdAt", "DESC");
+    const found = query.getMany();
+
+    return found;
+  }
+
+  async findJobsList(jobs: Job[]) {
+    const jobIds = [];
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < jobs.length; i++) {
+      jobIds.push(jobs[i].id);
+    }
+
+    const found = await this.jobsRepository.find({ id: In(jobIds) });
+
+    return found;
   }
 
   //* * hashtag 사용하여 필터링(페이징 처리) */

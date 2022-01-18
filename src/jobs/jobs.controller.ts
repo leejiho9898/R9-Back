@@ -13,8 +13,8 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/auth/decorators/auth.decorator";
 import { CurrentUser } from "src/common/decorators/current-user.decorator";
 import { User } from "src/users/entities/user.entity";
-import { SearchFavoriteDto } from "~/favorites/dto/search-favorite.dto";
 import { CreateJobDto } from "./dto/create-job.dto";
+import { SearchJobDto } from "./dto/search-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { JobsService } from "./jobs.service";
 
@@ -40,7 +40,7 @@ export class JobsController {
     summary: "모든 공고 불러오기API",
     description: "모든 공고를 불러온다",
   })
-  findAllJobs(@Query() page: SearchFavoriteDto) {
+  findAllJobs(@Query() page: SearchJobDto) {
     return this.jobsService.findJobs(page);
   }
 
@@ -64,10 +64,7 @@ export class JobsController {
     description: "특정 해시태그를 가진 공고들을 불러온다.",
   })
   @Auth(["ANY"])
-  findJobsByHashtags(
-    @CurrentUser() writer: User,
-    @Query() page: SearchFavoriteDto
-  ) {
+  findJobsByHashtags(@CurrentUser() writer: User, @Query() page: SearchJobDto) {
     const hashtagIds = [];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < writer.useHashtags.length; i++) {
@@ -95,6 +92,20 @@ export class JobsController {
   })
   findJobsByTitle(@Query("title") title: string) {
     return this.jobsService.findJobsByTitle(title);
+  }
+
+  /** 공고 검색 불러오기 (추가) */
+  @Get("search/test")
+  @ApiOperation({
+    summary: "조건을 만족하는 공고 불러오기API",
+    description: "조건을 만족하는 공고를 불러온다.",
+  })
+  async findJobsSearch(@Query() page: SearchJobDto) {
+    const result = this.jobsService.findJobsList(
+      await this.jobsService.searchJobList(page)
+    );
+
+    return result;
   }
 
   /** 특정 공고 불러오기 */
