@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/users/entities/user.entity";
 import { In, Like, Repository } from "typeorm";
 import { CreateJobDto } from "./dto/create-job.dto";
-import { SearchJobDto } from "./dto/search-job.dto";
 import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job, JobStatus } from "./entities/job.entity";
 import { Page } from "~/common/page/page";
@@ -42,7 +41,7 @@ export class JobsService {
   }
 
   //* * hashtag 사용하여 필터링(페이징 처리) */
-  async findJobsByHashtags(hashtagIds: number[], page: SearchJobDto) {
+  async findJobsByHashtags(hashtagIds: number[], page) {
     const query = await this.jobsRepository
       .createQueryBuilder("job")
       .leftJoinAndSelect("job.hashtags", "hashtag")
@@ -58,8 +57,8 @@ export class JobsService {
       jobIds.push(query[i].id);
     }
     const found = await this.jobsRepository.find({ id: In(jobIds) });
-
-    return found;
+    const total = await this.jobsRepository.count({ id: In(jobIds) });
+    return new Page(total, page.pageSize, found);
   }
 
   // 내가올린 공고 불러오기

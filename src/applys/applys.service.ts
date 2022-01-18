@@ -65,4 +65,16 @@ export class ApplysService {
     }
     return applys;
   }
+
+  // async findJobsByTitle(title: string) {
+  //   const found = await this.jobsRepository.find({
+  //     title: Like(`%${title}%`),
+  //   });
+  //   if (!found) {
+  //     throw new NotFoundException(
+  //       `User with bizName '${title}' does not exist`
+  //     );
+  //   }
+  //   return found;
+  // }
 }

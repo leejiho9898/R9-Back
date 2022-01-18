@@ -63,6 +63,19 @@ export class UsersService {
     return found;
   }
 
+  async findUserByBizName(bizName: string) {
+    const found = await this.usersRepository.find({
+      bizName: Like(`%${bizName}%`),
+    });
+    if (!found) {
+      throw new NotFoundException(
+        `User with bizName '${bizName}' does not exist`
+      );
+    }
+
+    return found;
+  }
+
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     const found = await this.usersRepository.findOne({ id });
     if (!found) {
@@ -85,17 +98,5 @@ export class UsersService {
       throw new NotFoundException(`User with id '${id}' does not exist`);
     }
     await this.usersRepository.softDelete({ id });
-  }
-
-  async findUserByBizName(bizName: string) {
-    const found = await this.usersRepository.find({
-      bizName: Like(`%${bizName}%`),
-    });
-    if (!found) {
-      throw new NotFoundException(
-        `User with bizName '${bizName}' does not exist`
-      );
-    }
-    return found;
   }
 }
