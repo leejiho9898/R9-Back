@@ -7,6 +7,7 @@ import { UpdateJobDto } from "./dto/update-job.dto";
 import { Job, JobStatus } from "./entities/job.entity";
 import { Page } from "~/common/page/page";
 import { HashtagsService } from "~/hashtags/hashtags.service";
+import { SearchJobDto } from "./dto/search-job.dto";
 
 @Injectable()
 export class JobsService {
@@ -43,7 +44,7 @@ export class JobsService {
   }
 
   async searchJobList(page: SearchJobDto) {
-    const query = await this.jobsRepository
+    const query = this.jobsRepository
       .createQueryBuilder("job")
       .leftJoinAndSelect("job.hashtags", "hashtag")
       .where("1=1");
@@ -92,26 +93,26 @@ export class JobsService {
       const hashtagIds = page.hashtagIds.split(",");
       query.andWhere("hashtag.id IN (:...hashtagIds)", { hashtagIds });
     }
+    // 이부분 나중에 for로 바꾸기
 
     query.take(page.getLimit());
     query.skip(page.getOffset());
     query.orderBy("job.createdAt", "DESC");
-    const found = query.getMany();
-
-    return found;
+    const found = await query.getMany();
+    const total = await query.getCount();
+    return { found, total };
   }
 
-  async findJobsList(jobs: Job[]) {
+  async findJobsList({ found, total }) {
     const jobIds = [];
 
     // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < jobs.length; i++) {
-      jobIds.push(jobs[i].id);
+    for (let i = 0; i < found.length; i++) {
+      jobIds.push(found[i].id);
     }
 
-    const found = await this.jobsRepository.find({ id: In(jobIds) });
-
-    return found;
+    const item = await this.jobsRepository.find({ id: In(jobIds) });
+    return new Page(total, 10, item);
   }
 
   //* * hashtag 사용하여 필터링(페이징 처리) */

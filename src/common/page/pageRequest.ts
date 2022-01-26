@@ -3,11 +3,11 @@ import { IsOptional, IsString } from "class-validator";
 export abstract class PageRequest {
   @IsString()
   @IsOptional()
-  pageNo?: string | 1;
+  pageNo?: number | 1;
 
   @IsString()
   @IsOptional()
-  pageSize?: string | 10;
+  pageSize?: number | 10;
 
   getOffset(): number {
     if (this.pageNo < 1 || this.pageNo === null || this.pageNo === undefined) {

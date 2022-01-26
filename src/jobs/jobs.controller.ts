@@ -84,18 +84,8 @@ export class JobsController {
     return this.jobsService.findMyJobs(writer);
   }
 
-  /** 검색 */
+  /** 조건에 따른 공고 검색 불러오기 */
   @Get("search")
-  @ApiOperation({
-    summary: "조건을 만족하는 공고 불러오기API",
-    description: "조건을 만족하는 공고를 불러온다.",
-  })
-  findJobsByTitle(@Query("title") title: string) {
-    return this.jobsService.findJobsByTitle(title);
-  }
-
-  /** 공고 검색 불러오기 (추가) */
-  @Get("search/test")
   @ApiOperation({
     summary: "조건을 만족하는 공고 불러오기API",
     description: "조건을 만족하는 공고를 불러온다.",
